@@ -16,7 +16,7 @@ class PermissionController extends Controller
     public function index()
     {
         $permissions = Permission::orderBy('id', 'desc')->paginate(10);
-        return view('permissions.index')->withPermissions($permissions);
+        return view('admin.permissions.index')->withPermissions($permissions);
     }
 
     /**
@@ -26,7 +26,7 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        return view('permissions.create');
+        return view('admin.permissions.create');
     }
 
     /**
@@ -48,7 +48,7 @@ class PermissionController extends Controller
                 'description' => 'sometimes|max:255'
             ]);
 
-            dd($request);
+            //dd($request);
 
             $permission = new Permission();
             $permission->name = $request->name;
@@ -96,7 +96,7 @@ class PermissionController extends Controller
     public function show($id)
     {
         $permission = Permission::findOrFail($id);
-        return view('permissions.show')->withPermission($permission);
+        return view('admin.permissions.show')->withPermission($permission);
     }
 
     /**
@@ -108,7 +108,7 @@ class PermissionController extends Controller
     public function edit($id)
     {
         $permission = Permission::findOrFail($id);
-        return view('permissions.edit')->withPermission($permission);
+        return view('admin.permissions.edit')->withPermission($permission);
     }
 
     /**

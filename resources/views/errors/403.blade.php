@@ -1,4 +1,4 @@
-@extends('layouts.errorMaster')
+@extends('admin.layouts.errorMaster')
 
 @section('title')
     Unauthorized Access

@@ -47,7 +47,7 @@ class PrayerRequestController extends Controller
 
         }
 
-        return view('prayer-center.prayer-requests.index', [
+        return view('admin.prayer-center.prayer-requests.index', [
             'prayerRequests' => $data->appends(Input::except('page'))
         ]);
 
@@ -61,7 +61,7 @@ class PrayerRequestController extends Controller
     {
         $logged_user = auth()->user();
         $statuses = Status::all();
-        return view('prayer-center.prayer-requests.create', compact('statuses', 'logged_user'));
+        return view('admin.prayer-center.prayer-requests.create', compact('statuses', 'logged_user'));
 
     }
 
@@ -111,7 +111,7 @@ class PrayerRequestController extends Controller
             $prayerRequest = $this->model->find($id);
             $statuses = Status::all();
 
-            return view('prayer-center.prayer-requests.edit', compact('prayerRequest', 'statuses'));
+            return view('admin.prayer-center.prayer-requests.edit', compact('prayerRequest', 'statuses'));
 
         } else {
 
@@ -182,7 +182,7 @@ class PrayerRequestController extends Controller
         //get details for this item
         $prayerRequest = $this->model->find($id);
         
-        return view('prayer-center.prayer-requests.show', compact('prayerRequest'));
+        return view('admin.prayer-center.prayer-requests.show', compact('prayerRequest'));
 
     }
     

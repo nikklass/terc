@@ -36,7 +36,7 @@
   ),
   'app' => 
   array (
-    'name' => 'TERC Admin',
+    'name' => 'TERC',
     'env' => 'local',
     'debug' => true,
     'pagination_limit' => '10',
@@ -777,9 +777,9 @@
         'acl' => 'c,r,u,d',
         'profile' => 'r,u',
         'sms' => 'c,r,u,d',
-        'scheduled_sms' => 'c,r,u,d',
+        'scheduled-sms' => 'c,r,u,d',
         'group' => 'c,r,u,d',
-        'company' => 'c,r,u,d',
+        'prayer-request' => 'c,r,u,d',
         'paybill' => 'c,r,u,d',
         'loan' => 'c,r,u,d',
         'account' => 'c,r,u,d',

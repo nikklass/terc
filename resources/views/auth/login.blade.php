@@ -1,4 +1,4 @@
-@extends('layouts.authMaster')
+@extends('admin.layouts.authMaster')
 
 @section('title')
     Login
@@ -127,7 +127,7 @@
                                             Forgot Password
                                         </a>
 
-                                        &nbsp; | &nbsp;
+                                        <!-- &nbsp; | &nbsp;
 
                                         <a href="{{ route('register') }}">
                                             Create A New Account
@@ -137,7 +137,7 @@
 
                                         <a href="{{ route('confirm') }}">
                                             Confirm Account
-                                        </a>
+                                        </a> -->
                                         
                                      </div>
 

@@ -14,147 +14,114 @@ View::share('create_message_url', \Config::get('constants.routes.create_message_
 View::share('fetch_savings_deposit_accounts_url', \Config::get('constants.routes.fetch_savings_deposit_accounts_url'));
 
 
+Route::get('/', 'HomeController@index')->name('home');
+
+//Route::get('/admin', 'HomeController@index')->name('adminhome');
+
+
+
 Route::group(['middleware' => 'auth'], function() {
 
-	Route::get('/', 'HomeController@index')->name('home');
+	//Route::get('/admin', 'Web\Admin\AdminHomeController@index')->name('adminhome');
+	Route::get('/admin/home', 'Web\Admin\AdminHomeController@index')->name('adminhome');
 
 	Route::post('logout', 'Auth\LoginController@logout')->name('logout'); 
 
 	
 	//export to excel data...
-	Route::get('excel/export-smsoutbox/{type}', 'ExcelController@exportOutboxSmsToExcel')->name('excel.export-smsoutbox');
-	Route::get('excel/export-groups/{type}', 'ExcelController@exportGroupsToExcel')->name('excel.export-groups');
-	Route::get('excel/mpesa-incoming/{type}', 'ExcelController@exportMpesaIncomingToExcel')->name('excel.mpesa-incoming');
-	Route::get('excel/yehu-deposits/{type}', 'ExcelController@exportYehuDepositsToExcel')->name('excel.yehu-deposits');
-	Route::get('excel/ussd-registration/{type}', 'ExcelController@exportUssdRegistrationToExcel')->name('excel.ussd-registration');
-	Route::get('excel/ussd-events/{type}', 'ExcelController@exportUssdEventsToExcel')->name('excel.ussd-events');
-	Route::get('excel/ussd-payments/{type}', 'ExcelController@exportUssdPaymentsToExcel')->name('excel.ussd-payments');
-	Route::get('excel/ussd-recommends/{type}', 'ExcelController@exportUssdRecommendsToExcel')->name('excel.ussd-recommends');
-	Route::get('excel/ussd-contactus/{type}', 'ExcelController@exportUssdContactUsToExcel')->name('excel.ussd-contactus');
-	Route::get('excel/loan-applications/{type}', 'ExcelController@exportLoanApplicationsToExcel')->name('excel.loan-applications');
-	Route::get('excel/loans/{type}', 'ExcelController@exportLoanApplicationsToExcel')->name('excel.loans');
+	Route::get('/admin/excel/export-smsoutbox/{type}', 'ExcelController@exportOutboxSmsToExcel')->name('excel.export-smsoutbox');
+	Route::get('/admin/excel/export-groups/{type}', 'ExcelController@exportGroupsToExcel')->name('excel.export-groups');
+	Route::get('/admin/excel/mpesa-incoming/{type}', 'ExcelController@exportMpesaIncomingToExcel')->name('excel.mpesa-incoming');
+	Route::get('/admin/excel/yehu-deposits/{type}', 'ExcelController@exportYehuDepositsToExcel')->name('excel.yehu-deposits');
+	Route::get('/admin/excel/ussd-registration/{type}', 'ExcelController@exportUssdRegistrationToExcel')->name('excel.ussd-registration');
+	Route::get('/admin/excel/ussd-events/{type}', 'ExcelController@exportUssdEventsToExcel')->name('excel.ussd-events');
+	Route::get('/admin/excel/ussd-payments/{type}', 'ExcelController@exportUssdPaymentsToExcel')->name('excel.ussd-payments');
+	Route::get('/admin/excel/ussd-recommends/{type}', 'ExcelController@exportUssdRecommendsToExcel')->name('excel.ussd-recommends');
+	Route::get('/admin/excel/ussd-contactus/{type}', 'ExcelController@exportUssdContactUsToExcel')->name('excel.ussd-contactus');
+	Route::get('/admin/excel/loan-applications/{type}', 'ExcelController@exportLoanApplicationsToExcel')->name('excel.loan-applications');
+	Route::get('/admin/excel/loans/{type}', 'ExcelController@exportLoanApplicationsToExcel')->name('excel.loans');
 	
-	Route::get('excel/prayer-requests/{type}', 'ExcelController@exportPrayerRequestsToExcel')->name('excel.prayer-requests');
+	Route::get('/admin/excel/prayer-requests/{type}', 'ExcelController@exportPrayerRequestsToExcel')->name('excel.prayer-requests');
 
-	Route::get('excel/prayer-points/{type}', 'ExcelController@exportPrayerRequestsToExcel')->name('excel.prayer-points');
+	Route::get('/admin/excel/prayer-points/{type}', 'ExcelController@exportPrayerRequestsToExcel')->name('excel.prayer-points');
 
-	Route::get('excel/user-loan-repayment-accounts/{type}', 'ExcelController@exportUserLoanRepaymentAccountsToExcel')->name('excel.user-loan-repayment-accounts');
-	Route::get('excel/savings-deposit-accounts/{type}', 'ExcelController@exportDepositSavingsAccountsToExcel')->name('excel.savings-deposit-accounts');
-	Route::get('excel/loan-repayment-deposit-accounts/{type}', 'ExcelController@exportDepositLoanRepaymentAccountsToExcel')->name('excel.loan-repayment-deposit-accounts');
+	Route::get('/admin/excel/user-loan-repayment-accounts/{type}', 'ExcelController@exportUserLoanRepaymentAccountsToExcel')->name('excel.user-loan-repayment-accounts');
+	Route::get('/admin/excel/savings-deposit-accounts/{type}', 'ExcelController@exportDepositSavingsAccountsToExcel')->name('excel.savings-deposit-accounts');
+	Route::get('/admin/excel/loan-repayment-deposit-accounts/{type}', 'ExcelController@exportDepositLoanRepaymentAccountsToExcel')->name('excel.loan-repayment-deposit-accounts');
 
 	//handle bulk import user...
-	Route::get('users/create-bulk', 'UserImportController@create')->name('bulk-users.create');
-	Route::post('users/create-bulk', 'UserImportController@store')->name('bulk-users.store');
-	Route::get('users/create-bulk/get-data/{uuid}', 'UserImportController@getImportData')->name('bulk-users.getimportdata');
-	Route::get('users/create-bulk/get-incomplete/{uuid}', 'UserImportController@getIncompleteData')->name('bulk-users.getincompletedata');
+	Route::get('/admin/users/create-bulk', 'UserImportController@create')->name('bulk-users.create');
+	Route::post('/admin/users/create-bulk', 'UserImportController@store')->name('bulk-users.store');
+	Route::get('/admin/users/create-bulk/get-data/{uuid}', 'UserImportController@getImportData')->name('bulk-users.getimportdata');
+	Route::get('/admin/users/create-bulk/get-incomplete/{uuid}', 'UserImportController@getIncompleteData')->name('bulk-users.getincompletedata');
 	
 	//send email routes...
-	Route::get('/email/newUser', 'EmailController@newUserEmail')->name('email.newuser');
+	Route::get('/admin/email/newUser', 'EmailController@newUserEmail')->name('email.newuser');
 
 	//user routes...
-	Route::resource('/users', 'Web\Users\UserController');
-
-	//manage products routes...
-	Route::resource('/manage/products', 'Web\Products\ProductController');
-
-	//manage events routes...
-	Route::resource('/manage/events', 'Web\Events\EventController');
-
-	//manage glaccounts routes...
-	Route::resource('/manage/glaccounts', 'Web\Glaccounts\GlaccountController');
-
-	//loans routes...
-	Route::resource('/loans', 'Web\Loans\LoanController');
-
-	//loan applications routes...
-	Route::resource('/loan-applications', 'Web\Loans\LoanApplicationController');
-	Route::post('/loan-applications/create-step-2', 'Web\Loans\LoanApplicationController@create_step2')->name('loan-applications.create_step2');
-	Route::get('/loan-applications/{id}/approve', 'Web\Loans\LoanApplicationController@create_approve')->name('loan-applications.approve');
-	Route::put('/loan-applications/{id}/update-approve', 'Web\Loans\LoanApplicationController@update_approve')->name('loan-applications.update_approve');
-	
+	Route::resource('/admin/users', 'Web\Users\UserController');
 
 	//prayer requests routes... 
-	Route::resource('/prayer-requests', 'Web\PrayerRequest\PrayerRequestController');
+	Route::resource('/admin/prayer-requests', 'Web\PrayerRequest\PrayerRequestController');
 
 	//prayer points routes... 
-	Route::resource('/prayer-points', 'Web\PrayerPoint\PrayerPointController');
+	Route::resource('/admin/prayer-points', 'Web\PrayerPoint\PrayerPointController');
 
 	//global altars routes... 
-	Route::resource('/global-altars', 'Web\GlobalAltar\GlobalAltarController');
+	Route::resource('/admin/global-altars', 'Web\GlobalAltar\GlobalAltarController');
 
 	//leadership teams routes... 
-	Route::resource('/leadership-teams', 'Web\LeadershipTeam\LeadershipTeamController');
+	Route::resource('/admin/leadership-teams', 'Web\LeadershipTeam\LeadershipTeamController');
 
 	//ebooks routes... 
-	Route::resource('/ebooks', 'Web\Ebook\EbookController');
+	Route::resource('/admin/ebooks', 'Web\Ebook\EbookController');
 
 	//quotes routes... 
-	Route::resource('/quotes', 'Web\Quote\QuoteController');
-
-	//user Loan Repayment accounts routes... 
-	Route::resource('/user-loan-repayments-accounts', 'Web\Account\UserLoanRepaymentsAccountController');
-
-	//savings deposit accounts routes...
-	Route::resource('/savings-deposit-accounts', 'Web\Account\SavingsDepositAccountController');
-
-	//loan repayments deposit accounts routes...
-	Route::resource('/loan-repayments-deposit-accounts', 'Web\Account\LoanRepaymentsDepositAccountController');
+	Route::resource('/admin/quotes', 'Web\Quote\QuoteController');
 
 	//user profile routes...
-	Route::get('/profile/{id}', 'ProfileController@indexId')->name('user.profile.id');
-	Route::get('/profile', 'ProfileController@index')->name('user.profile'); 
+	Route::get('/admin/profile/{id}', 'ProfileController@indexId')->name('user.profile.id');
+	Route::get('/admin/profile', 'ProfileController@index')->name('user.profile'); 
 
 	//image upload / resize routes
-	Route::get('/resizeImage', 'Web\Images\ImageController@resizeImage')->name('images.index');
-	Route::post('/resizeImagePost', 'Web\Images\ImageController@resizeImagePost')->name('images.store'); 
+	Route::get('/admin/resizeImage', 'Web\Images\ImageController@resizeImage')->name('images.index');
+	Route::post('/admin/resizeImagePost', 'Web\Images\ImageController@resizeImagePost')->name('images.store'); 
 
 	//role routes...
-	Route::resource('/roles', 'RoleController', ['except' => 'destroy']);
+	Route::resource('/admin/roles', 'RoleController', ['except' => 'destroy']);
 
 	//group routes...
-	Route::resource('/groups', 'GroupController');
+	Route::resource('/admin/groups', 'GroupController');
 
     //mpesa-incoming routes...
-    Route::resource('/mpesa-incoming', 'MpesaIncomingController');
+    Route::resource('/admin/mpesa-incoming', 'MpesaIncomingController');
 
     //ussd-registration routes...
-    Route::resource('/ussd-registration', 'Web\Ussd\UssdRegistrationController', ['except' => 'destroy']);
-
-    //ussd-events routes...
-    Route::resource('/ussd-events', 'Web\Ussd\UssdEventController', ['except' => 'destroy']);
-
-    //ussd-payments routes...
-    Route::resource('/ussd-payments', 'Web\Ussd\UssdPaymentController', ['except' => ['edit', 'update', 'destroy']]);
-
-    //ussd-recommends routes...
-    Route::resource('/ussd-recommends', 'Web\Ussd\UssdRecommendController', ['except' => ['edit', 'update', 'destroy']]);
+    Route::resource('/admin/ussd-registration', 'Web\Ussd\UssdRegistrationController', ['except' => 'destroy']);
 
     //ussd-contactus routes...
-    Route::resource('/ussd-contactus', 'Web\Ussd\UssdContactUsController', ['except' => ['edit', 'update', 'destroy']]);
+    Route::resource('/admin/ussd-contactus', 'Web\Ussd\UssdContactUsController', ['except' => ['edit', 'update', 'destroy']]);
 
 	//smsoutbox routes...
-	Route::resource('/smsoutbox', 'SmsOutboxController', ['except' => ['edit', 'destroy']]);
+	Route::resource('/admin/smsoutbox', 'SmsOutboxController', ['except' => ['edit', 'destroy']]);
 
 	//schedule smsoutbox routes...
-	Route::resource('/scheduled-smsoutbox', 'ScheduleSmsOutboxController');
+	Route::resource('/admin/scheduled-smsoutbox', 'ScheduleSmsOutboxController');
 
 });
 
 //superadmin routes 
 Route::group(['middleware' => 'role:superadministrator'], function() {
 	//permission routes...
-	Route::resource('/permissions', 'PermissionController', ['except' => 'destroy']);
-
-	//mpesa paybills routes
-	Route::resource('/mpesa-paybills', 'MpesaPaybillController');
+	Route::resource('/admin/permissions', 'PermissionController', ['except' => 'destroy']);
 });
 
 //superadmin and admin routes
 Route::group(['middleware' => 'role:superadministrator|administrator'], function() {
 	//countries routes...
-	Route::resource('/countries', 'Web\Countries\CountriesController');
+	Route::resource('/admin/countries', 'Web\Countries\CountriesController');
 	//states routes...
-	Route::resource('/states', 'Web\States\StatesController');
+	Route::resource('/admin/states', 'Web\States\StatesController');
 });
 
 Route::group(['middleware' => 'guest'], function() {

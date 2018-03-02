@@ -47,7 +47,7 @@ class PrayerPointController extends Controller
 
         }
 
-        return view('prayer-center.prayer-points.index', [
+        return view('admin.prayer-center.prayer-points.index', [
             'prayerPoints' => $data->appends(Input::except('page'))
         ]);
 
@@ -61,7 +61,7 @@ class PrayerPointController extends Controller
     {
         $logged_user = auth()->user();
         $statuses = Status::all();
-        return view('prayer-center.prayer-points.create', compact('statuses', 'logged_user'));
+        return view('admin.prayer-center.prayer-points.create', compact('statuses', 'logged_user'));
 
     }
 
@@ -111,7 +111,7 @@ class PrayerPointController extends Controller
             $prayerPoint = $this->model->find($id);
             $statuses = Status::all();
 
-            return view('prayer-center.prayer-points.edit', compact('prayerPoint', 'statuses'));
+            return view('admin.prayer-center.prayer-points.edit', compact('prayerPoint', 'statuses'));
 
         } else {
 
@@ -177,7 +177,7 @@ class PrayerPointController extends Controller
         //get details for this item
         $prayerPoint = $this->model->find($id);
         
-        return view('prayer-center.prayer-points.show', compact('prayerPoint'));
+        return view('admin.prayer-center.prayer-points.show', compact('prayerPoint'));
 
     }
     

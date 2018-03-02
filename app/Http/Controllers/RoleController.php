@@ -17,7 +17,7 @@ class RoleController extends Controller
     public function index()
     {
         $roles = Role::all();
-        return view('roles.index')->withRoles($roles);
+        return view('admin.roles.index')->withRoles($roles);
     }
 
     /**
@@ -28,7 +28,7 @@ class RoleController extends Controller
     public function create()
     {
         $permissions = Permission::all();
-        return view('roles.create')->withPermissions($permissions);
+        return view('admin.roles.create')->withPermissions($permissions);
     }
 
     /**
@@ -70,7 +70,7 @@ class RoleController extends Controller
     public function show($id)
     {
         $role = Role::where('id', $id)->with('permissions')->first();
-        return view('roles.show')->withRole($role);
+        return view('admin.roles.show')->withRole($role);
     }
 
     /**
@@ -84,7 +84,7 @@ class RoleController extends Controller
         $role = Role::where('id', $id)->with('permissions')->first();
         $permissions = Permission::all();
         //dd($role, $permissions);
-        return view('roles.edit')->withRole($role)->withPermissions($permissions);
+        return view('admin.roles.edit')->withRole($role)->withPermissions($permissions);
     }
 
     /**
