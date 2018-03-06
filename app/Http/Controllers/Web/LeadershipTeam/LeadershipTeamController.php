@@ -48,7 +48,7 @@ class LeadershipTeamController extends Controller
 
         }
 
-        return view('manage.leadership-teams.index', [
+        return view('admin.manage.leadership-teams.index', [
             'leadershipTeams' => $data->appends(Input::except('page'))
         ]);
 
@@ -63,7 +63,7 @@ class LeadershipTeamController extends Controller
         $logged_user = auth()->user();
         $statuses = Status::all();
         $countries = Country::all();
-        return view('manage.leadership-teams.create', compact('statuses', 'countries', 'logged_user'));
+        return view('admin.manage.leadership-teams.create', compact('statuses', 'countries', 'logged_user'));
 
     }
 
@@ -125,7 +125,7 @@ class LeadershipTeamController extends Controller
             $statuses = Status::all();
             $countries = Country::all();
 
-            return view('manage.leadership-teams.edit', compact('leadershipTeam', 'countries', 'statuses'));
+            return view('admin.manage.leadership-teams.edit', compact('leadershipTeam', 'countries', 'statuses'));
 
         } else {
 
@@ -203,7 +203,7 @@ class LeadershipTeamController extends Controller
             $leadershipTeam->phone = $phone;
         }
         
-        return view('manage.leadership-teams.show', compact('leadershipTeam'));
+        return view('admin.manage.leadership-teams.show', compact('leadershipTeam'));
 
     }
     
