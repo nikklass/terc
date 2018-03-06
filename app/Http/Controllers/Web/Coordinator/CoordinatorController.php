@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Web\GlobalAltar;
+namespace App\Http\Controllers\Web\Coordinator;
 
 use App\Entities\Country;
-use App\Entities\GlobalAltar;
 use App\Entities\Group;
+use App\Entities\Coordinator;
 use App\Entities\Status;
 use App\Http\Controllers\Controller;
-use App\Services\GlobalAltar\GlobalAltarIndex;
+use App\Services\Coordinator\CoordinatorIndex;
 use App\User;
 use Carbon\Carbon;
 use Excel;
@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Input;
 use Session;
 
-class GlobalAltarController extends Controller
+class CoordinatorController extends Controller
 {
     
     protected $model;
@@ -24,9 +24,9 @@ class GlobalAltarController extends Controller
     /**
      *  constructor.
      *
-     * @param GlobalAltar $model
+     * @param Coordinator $model
      */
-    public function __construct(GlobalAltar $model)
+    public function __construct(Coordinator $model)
     {
         $this->model = $model;
 
@@ -35,11 +35,11 @@ class GlobalAltarController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request, GlobalAltarIndex $globalAltarIndex)
+    public function index(Request $request, CoordinatorIndex $coordinatorIndex)
     {
 
         //get the data
-        $data = $globalAltarIndex->getGlobalAltars($request);
+        $data = $coordinatorIndex->getCoordinators($request);
 
         //are we in report mode? return get results
         if ($request->report) {
@@ -48,8 +48,8 @@ class GlobalAltarController extends Controller
 
         }
 
-        return view('admin.global-altars.global-altars.index', [
-            'globalAltars' => $data->appends(Input::except('page'))
+        return view('admin.global-altars.coordinators.index', [
+            'coordinators' => $data->appends(Input::except('page'))
         ]);
 
     }
@@ -63,7 +63,7 @@ class GlobalAltarController extends Controller
         $logged_user = auth()->user();
         $statuses = Status::all();
         $countries = Country::all();
-        return view('admin.global-altars.global-altars.create', compact('statuses', 'logged_user', 'countries'));
+        return view('admin.global-altars.coordinators.create', compact('statuses', 'countries', 'logged_user'));
 
     }
 
@@ -74,11 +74,15 @@ class GlobalAltarController extends Controller
     { 
 
         $rules = [
-            'name' => 'required',
-            'status_id' => 'required',
+            'title' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'phone_country' => 'required_with:phone',
+            'phone' => 'required|phone',
+            'country_id' => 'required',
         ];
 
-        $payload = app('request')->only('name', 'status_id');
+        $payload = app('request')->only('title', 'first_name', 'last_name', 'phone', 'phone_country', 'country_id');
 
         $validator = app('validator')->make($payload, $rules);
 
@@ -87,11 +91,11 @@ class GlobalAltarController extends Controller
         }
 
         //create item
-        $globalAltar = $this->model->create($request->all());
+        $coordinator = $this->model->create($request->all());
 
-        Session::flash('success', 'Global altar successfully created');
+        Session::flash('success', 'Coordinator successfully created');
 
-        return redirect()->route('global-altars.index');
+        return redirect()->route('coordinators.index');
         
     }
 
@@ -110,10 +114,18 @@ class GlobalAltarController extends Controller
         //if user is superadmin, proceed, else, abort
         if ($user->hasRole('superadministrator')){
 
-            $globalAltar = $this->model->find($id);
-            $statuses = Status::all();
+            $coordinator = $this->model->find($id);
 
-            return view('admin.global-altars.global-altars.edit', compact('globalAltar', 'statuses'));
+            if ($coordinator->phone) {
+                $phone = getLocalisedPhoneNumber($coordinator->phone, $coordinator->phone_country);
+                $coordinator->phone = $phone;
+            }
+
+            //dd($coordinator);
+            $statuses = Status::all();
+            $countries = Country::all();
+
+            return view('admin.global-altars.coordinators.edit', compact('coordinator', 'countries', 'statuses'));
 
         } else {
 
@@ -139,14 +151,18 @@ class GlobalAltarController extends Controller
         //if user is superadmin, proceed, else, abort
         if ($user->hasRole('superadministrator')){
 
-            $globalAltar = $this->model->find($id);
+            $coordinator = $this->model->find($id);
 
             $rules = [
-                'name' => 'required',
-                'status_id' => 'required',
+                'title' => 'required',
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'phone_country' => 'required_with:phone',
+                'phone' => 'required|phone',
+                'country_id' => 'required',
             ];
 
-            $payload = app('request')->only('name', 'status_id');
+            $payload = app('request')->only('title', 'first_name', 'last_name', 'phone', 'phone_country', 'country_id');
 
             $validator = app('validator')->make($payload, $rules);
 
@@ -157,9 +173,9 @@ class GlobalAltarController extends Controller
             // update fields
             $this->model->updatedata($id, $request->all());
 
-            Session::flash('success', 'Successfully updated global altar - ' . $globalAltar->id);
+            Session::flash('success', 'Successfully updated coordinator - ' . $coordinator->id);
             //show updated record
-            return redirect()->route('global-altars.show', $globalAltar->id);
+            return redirect()->route('coordinators.show', $coordinator->id);
 
         } else {
 
@@ -177,9 +193,14 @@ class GlobalAltarController extends Controller
     {
 
         //get details for this item
-        $globalAltar = $this->model->find($id);
+        $coordinator = $this->model->find($id);
+
+        if ($coordinator->phone) {
+            $phone = getDatabasePhoneNumber($coordinator->phone, $coordinator->phone_country);
+            $coordinator->phone = $phone;
+        }
         
-        return view('admin.global-altars.global-altars.show', compact('globalAltar'));
+        return view('admin.global-altars.coordinators.show', compact('coordinator'));
 
     }
     
@@ -198,7 +219,7 @@ class GlobalAltarController extends Controller
             $result = $item->delete();
         }
 
-        return redirect()->route('global-altars.index');
+        return redirect()->route('coordinators.index');
     }
 
 }

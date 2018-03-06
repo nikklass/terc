@@ -1,6 +1,7 @@
 <?php
 
 use App\Entities\Company;
+use App\Entities\Coordinator;
 use App\Entities\Country;
 use App\Entities\Ebook;
 use App\Entities\Group;
@@ -10,6 +11,7 @@ use App\Entities\MpesaPaybill;
 use App\Entities\Quote;
 use App\Entities\SmsOutbox;
 use App\Entities\State;
+use App\Entities\StateRepresentative;
 use App\Entities\UssdEvent;
 use App\Permission;
 use App\Role;
@@ -443,6 +445,81 @@ Breadcrumbs::register('leadership-teams.edit', function($breadcrumbs, $id)
 });
 
 /******** END LEADERSHIP TEAMS  ROUTES *********/
+
+
+
+/******** COORDINATORS ROUTES ********/
+
+// Home > Coordinators
+Breadcrumbs::register('coordinators', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Coordinators', route('coordinators.index'));
+});
+
+// Home > Create Coordinators
+Breadcrumbs::register('coordinators.create', function($breadcrumbs)
+{
+    $breadcrumbs->parent('coordinators');
+    $breadcrumbs->push('Add New Coordinator', route('coordinators.create'));
+});
+
+// Home > Coordinators > Show Coordinator
+Breadcrumbs::register('coordinators.show', function($breadcrumbs, $id)
+{
+    $breadcrumbs->parent('coordinators');
+    $name_data = Coordinator::find($id);
+    $full_names = $name_data->first_name . ' ' . $name_data->last_name;
+    $breadcrumbs->push("Showing Coordinator - " . $full_names, route('coordinators.show', $id));
+});
+
+// Home > Coordinators > Edit Coordinator
+Breadcrumbs::register('coordinators.edit', function($breadcrumbs, $id)
+{
+    $breadcrumbs->parent('coordinators');
+    $name_data = Coordinator::find($id);
+    $full_names = $name_data->first_name . ' ' . $name_data->last_name;
+    $breadcrumbs->push("Edit Coordinator - " . $full_names, route('coordinators.edit', $id));
+});
+
+/******** END COORDINATORS ROUTES *********/
+
+
+/******** STATE REPRESENTATIVES ROUTES ********/
+
+// Home > State Representatives
+Breadcrumbs::register('state-representatives', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('state-representatives', route('state-representatives.index'));
+});
+
+// Home > Create state representative
+Breadcrumbs::register('state-representatives.create', function($breadcrumbs)
+{
+    $breadcrumbs->parent('state-representatives');
+    $breadcrumbs->push('Add New State Representative', route('state-representatives.create'));
+});
+
+// Home > state-representatives > Show State Representative
+Breadcrumbs::register('state-representatives.show', function($breadcrumbs, $id)
+{
+    $breadcrumbs->parent('state-representatives');
+    $name_data = StateRepresentative::find($id);
+    $full_names = $name_data->first_name . ' ' . $name_data->last_name;
+    $breadcrumbs->push("Showing State Representative - " . $full_names, route('state-representatives.show', $id));
+});
+
+// Home > state-representatives > Edit State Representative
+Breadcrumbs::register('state-representatives.edit', function($breadcrumbs, $id)
+{
+    $breadcrumbs->parent('state-representatives');
+    $name_data = StateRepresentative::find($id);
+    $full_names = $name_data->first_name . ' ' . $name_data->last_name;
+    $breadcrumbs->push("Edit State Representative - " . $full_names, route('state-representatives.edit', $id));
+});
+
+/******** END STATE REPRESENTATIVES ROUTES *********/
 
 
 

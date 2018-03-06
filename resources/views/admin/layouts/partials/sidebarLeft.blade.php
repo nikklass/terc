@@ -445,14 +445,14 @@
                <ul id="coordinators_dr" class="collapse collapse-level-1 space-left">
                   
                   <li>
-                     <a href="{{ route('prayer-requests.create') }}">
+                     <a href="{{ route('coordinators.create') }}">
                         <i class="zmdi zmdi-plus mr-10"></i>
                         <span class="right-nav-text">Add New</span>
                      </a>
                   </li>
 
                   <li>
-                     <a href="{{ route('prayer-requests.index') }}">
+                     <a href="{{ route('coordinators.index') }}">
                         <i class="zmdi zmdi-apps mr-10"></i>
                         <span class="right-nav-text">Manage</span>
                      </a>
@@ -475,14 +475,14 @@
                <ul id="statereps_dr" class="collapse collapse-level-1 space-left">
                   
                   <li>
-                     <a href="{{ route('prayer-requests.create') }}">
+                     <a href="{{ route('state-representatives.create') }}">
                         <i class="zmdi zmdi-plus mr-10"></i>
                         <span class="right-nav-text">Add New</span>
                      </a>
                   </li>
 
                   <li>
-                     <a href="{{ route('prayer-requests.index') }}">
+                     <a href="{{ route('state-representatives.index') }}">
                         <i class="zmdi zmdi-apps mr-10"></i>
                         <span class="right-nav-text">Manage</span>
                      </a>
