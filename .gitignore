@@ -9,4 +9,5 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 .env
+terc_vendor.zip
 /resources/assets/js/.env

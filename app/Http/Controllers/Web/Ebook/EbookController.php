@@ -48,7 +48,7 @@ class EbookController extends Controller
 
         }
 
-        return view('manage.ebooks.index', [
+        return view('admin.manage.ebooks.index', [
             'ebooks' => $data->appends(Input::except('page'))
         ]);
 
@@ -62,7 +62,7 @@ class EbookController extends Controller
     {
         $logged_user = auth()->user();
         $statuses = Status::all();
-        return view('manage.ebooks.create', compact('statuses', 'logged_user'));
+        return view('admin.manage.ebooks.create', compact('statuses', 'logged_user'));
 
     }
 
@@ -139,7 +139,7 @@ class EbookController extends Controller
             $statuses = Status::all();
             $countries = Country::all();
 
-            return view('manage.ebooks.edit', compact('ebook', 'countries', 'statuses'));
+            return view('admin.manage.ebooks.edit', compact('ebook', 'countries', 'statuses'));
 
         } else {
 
@@ -240,7 +240,7 @@ class EbookController extends Controller
             $ebook->phone = $phone;
         }
         
-        return view('manage.ebooks.show', compact('ebook'));
+        return view('admin.manage.ebooks.show', compact('ebook'));
 
     }
     
