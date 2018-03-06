@@ -46,7 +46,7 @@ class QuoteController extends Controller
 
         }
 
-        return view('manage.quotes.index', [
+        return view('admin.manage.quotes.index', [
             'quotes' => $data->appends(Input::except('page'))
         ]);
 
@@ -60,7 +60,7 @@ class QuoteController extends Controller
     {
         $logged_user = auth()->user();
         $statuses = Status::all();
-        return view('manage.quotes.create', compact('statuses', 'logged_user'));
+        return view('admin.manage.quotes.create', compact('statuses', 'logged_user'));
 
     }
 
@@ -116,7 +116,7 @@ class QuoteController extends Controller
             //dd($quote);
             $statuses = Status::all();
 
-            return view('manage.quotes.edit', compact('quote', 'statuses'));
+            return view('admin.manage.quotes.edit', compact('quote', 'statuses'));
 
         } else {
 
@@ -188,7 +188,7 @@ class QuoteController extends Controller
             $quote->phone = $phone;
         }
         
-        return view('manage.quotes.show', compact('quote'));
+        return view('admin.manage.quotes.show', compact('quote'));
 
     }
     
