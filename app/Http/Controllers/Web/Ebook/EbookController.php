@@ -63,7 +63,7 @@ class EbookController extends Controller
         $logged_user = auth()->user();
         $statuses = Status::all();
         return view('admin.manage.ebooks.create', compact('statuses', 'logged_user'));
-
+ 
     }
 
     /**
