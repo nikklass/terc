@@ -60,7 +60,7 @@ class CountriesController extends Controller
 
         }
 
-        return view('manage.countries.index', [
+        return view('admin.manage.countries.index', [
             'countries' => $data->appends(Input::except('page'))
         ]);
 
@@ -73,7 +73,7 @@ class CountriesController extends Controller
     {
         $logged_user = auth()->user();
         $statuses = Status::all();
-        return view('manage.countries.create', compact('statuses', 'logged_user'));
+        return view('admin.manage.countries.create', compact('statuses', 'logged_user'));
 
     }
 
@@ -88,7 +88,7 @@ class CountriesController extends Controller
             $country = $this->model->find($id);
             $statuses = Status::all();
 
-            return view('manage.countries.edit', compact('country', 'statuses'));
+            return view('admin.manage.countries.edit', compact('country', 'statuses'));
 
         } else {
 
@@ -108,7 +108,7 @@ class CountriesController extends Controller
         //get details for this item
         $country = $this->model->find($id);
         
-        return view('manage.countries.show', compact('country'));
+        return view('admin.manage.countries.show', compact('country'));
 
     }
 

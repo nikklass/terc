@@ -17,9 +17,8 @@ use Illuminate\Support\Facades\DB;
 /**
  * Class StatesController.
  *
- * @author Jose Fonseca <jose@ditecnologia.com>
  */
-class StatesController extends Controller
+class ApiStatesController extends Controller
 {
     use Helpers;
 
