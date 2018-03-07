@@ -99,7 +99,7 @@
 
             <li class="dropdown auth-drp">
                 <a href="#" class="dropdown-toggle pr-0" data-toggle="dropdown">
-                      <img src="{{ asset('images/no_user.jpg') }}" 
+                      <img src="{{ asset('admin/images/no_user.jpg') }}" 
                           alt="{{ Auth::user()->name }}" 
                           class="user-auth-img img-circle"/>
                       <span class="user-online-status"></span>
