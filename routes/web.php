@@ -63,7 +63,6 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => 'auth'], function() {
 
-	//Route::get('/admin', 'Web\Admin\AdminHomeController@index')->name('adminhome');
 	Route::get('/admin/home', 'Web\Admin\AdminHomeController@index')->name('adminhome');
 
 	Route::post('logout', 'Auth\LoginController@logout')->name('logout'); 

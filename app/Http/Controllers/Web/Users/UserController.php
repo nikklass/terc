@@ -68,7 +68,7 @@ class UserController extends Controller
             }
 
             //return data
-            return view('users.index', [
+            return view('admin.users.index', [
                 'users' => $data->appends(Input::except('page'))
             ]);
 
@@ -97,7 +97,7 @@ class UserController extends Controller
         }
         //dd($companies);
 
-        return view('users.create')
+        return view('admin.users.create')
             ->withCompanies($companies)
             ->withUser($userCompany);
 
@@ -118,9 +118,8 @@ class UserController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'phone_country' => 'required_with:phone',
-            'phone' => 'required|phone:KE',
+            'phone' => 'required|phone',
             'password' => 'required|min:8|confirmed',
-            'company_id' => 'required|integer',
         ]);
 
         //create item
@@ -129,63 +128,6 @@ class UserController extends Controller
         session()->flash("success", "User successfully created");
         
         return redirect()->route('users.index');
-
-    }
-
-
-    public function store2(Request $request)
-    {
-
-        //dd($request);
-
-        $this->validate(request(), [
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'account_number' => 'required',
-            'email' => 'email|unique:users',
-            'sms_user_name' => 'unique:users',
-            'phone_number' => 'required|max:13'
-        ]);
-
-        $phone_number = '';
-        if ($request->phone_number) {
-            if (!isValidPhoneNumber($request->phone_number)){
-                $message = \Config::get('constants.error.invalid_phone_number');
-                Session::flash('error', $message);
-                return redirect()->back()->withInput();
-            }
-            $phone_number = formatPhoneNumber($request->phone_number);
-        }
-
-        //generate random password
-        $password = generateCode(6);
-
-        // create user
-        $userData = [
-            'first_name' => request()->first_name,
-            'last_name' => request()->last_name,
-            'sms_user_name' => request()->sms_user_name,
-            'email' => request()->email,
-            'company_id' => request()->company_id,
-            'account_number' => request()->account_number,
-            'gender' => request()->gender,
-            'phone_number' => $phone_number,
-            'password' => bcrypt($password),
-            'api_token' => str_random(60),
-            'created_by' => request()->user()->id,
-            'updated_by' => request()->user()->id
-        ];
-
-        $user = User::create($userData);
-        
-        //add generated password to returned data
-        //$user['password'] = $password;
-
-        //event(new Registered($user));
-
-        session()->flash("success", "User successfully created");
-        return $this->registered(request(), $user)
-                        ?: redirect()->back();
 
     }
 
@@ -224,7 +166,7 @@ class UserController extends Controller
             $groups = Group::all();
             $roles = Role::all();
 
-            return view('users.edit', compact('user', 'roles', 'groups', 'countries'));
+            return view('admin.users.edit', compact('user', 'roles', 'groups', 'countries'));
 
         } else {
 
@@ -249,19 +191,9 @@ class UserController extends Controller
             'last_name' => 'required',
             'email' => 'sometimes|email|unique:users,email,'.$id,
             'account_number' => 'required',
-            'phone_number' => 'required|max:13'
-                //'required|unique:users,phone_number|unique:users,company_id,id,'.$id,
+            'phone_country' => 'required_with:phone',
+            'phone_number' => 'required|phone',
         ]);
-
-        $phone_number = '';
-        if ($request->phone_number) {
-            if (!isValidPhoneNumber($request->phone_number)){
-                $message = \Config::get('constants.error.invalid_phone_number');
-                Session::flash('error', $message);
-                return redirect()->back()->withInput();
-            }
-            $phone_number = formatPhoneNumber($request->phone_number);
-        }
 
         $user = User::findOrFail($id);
 

@@ -1,6 +1,6 @@
-<!-- <script src="{{ asset('admin/myjs/jquery.min.js') }}"></script>
+<script src="{{ asset('admin/myjs/jquery.min.js') }}"></script>
 
-<script src="{{ asset('admin/myjs/bootstrap.min.js') }}"></script> -->
+<script src="{{ asset('admin/myjs/bootstrap.min.js') }}"></script>
 
 <script src="{{ asset('admin/myjs/jasny-bootstrap.min.js') }}"></script>
 

@@ -62,7 +62,6 @@ class RegisterController extends Controller
             'phone_country' => 'required_with:phone',
             'phone' => 'required|phone:mobile',
             'password' => 'required|min:6|confirmed',
-            'company_id' => 'required|integer',
         ]);
 
         //create user
