@@ -97,7 +97,7 @@
                                             <strong>PDF Link:</strong> 
                                             <span>
                                               @if ($ebook->src)
-                                                <a href="{{ $ebook->src }}" target="_blank">View PDF</a>
+                                                <a href="<?=base_path()?>{{ $ebook->src }}" target="_blank">View PDF</a>
 
                                                 <!-- <a  href="/{{ $ebook->src }}" target="_blank" class="btn btn-warning btn-rounded btn-lable-wrap right-label"><span class="btn-text">View PDF</span> <span class="btn-label"><i class="fa fa-times"></i> </span>
                                                 </a> -->
