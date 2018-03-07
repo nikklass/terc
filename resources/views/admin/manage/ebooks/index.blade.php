@@ -228,7 +228,7 @@
 
                                                 <td>
                                                   <span class="txt-dark">
-                                                    <a href="/{{ $ebook->src }}" target="_blank">View PDF</a>
+                                                    <a href="{{ $ebook->src }}" target="_blank">View PDF</a>
                                                   </span>
                                                 </td>
 
