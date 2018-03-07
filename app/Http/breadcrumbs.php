@@ -989,3 +989,37 @@ Breadcrumbs::register('users.edit', function($breadcrumbs, $id)
 
 /******** END USERS ROUTES ********/
 
+
+/******** USER LOGIN ROUTES ********/
+
+// Home > User Login
+Breadcrumbs::register('user-logins', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('User Logins', route('user-logins.index'));
+});
+
+// Home > User Login > Create User Login
+Breadcrumbs::register('user-logins.create', function($breadcrumbs)
+{
+    $breadcrumbs->parent('user-logins');
+    $breadcrumbs->push('Create User Login', route('user-logins.create'));
+});
+
+// Home > User Login > Show User Login
+Breadcrumbs::register('user-logins.show', function($breadcrumbs, $id)
+{
+    $breadcrumbs->parent('user-logins');
+    $breadcrumbs->push("Showing User Login - " . $id, route('user-logins.show', $id));
+});
+
+// Home > User Login > Edit User Login
+Breadcrumbs::register('user-logins.edit', function($breadcrumbs, $id)
+{
+    $breadcrumbs->parent('user-logins');
+    $breadcrumbs->push("Edit User Login - " . $id, route('user-logins.edit', $id));
+});
+
+/******** END USER LOGIN ROUTES ********/
+
+

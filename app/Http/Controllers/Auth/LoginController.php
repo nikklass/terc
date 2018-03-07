@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Entities\Company;
 use App\Entities\Country;
 use App\Entities\SmsOutbox;
+use App\Entities\UserLogin;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -82,9 +83,19 @@ class LoginController extends Controller
 
         //start check throttles
         if ($this->hasTooManyLoginAttempts($request)) {
+            
+            //start save user details if login locked
+            $request->merge([
+                'status' => 'locked'
+            ]); 
+            $userlogin = new UserLogin();
+            $userlogin = $userlogin->create($request->toArray());
+            //end save user details if login locked
+
             $this->fireLockoutEvent($request);
 
             return $this->sendLockoutResponse($request);
+
         }
 
         // if user surpasses their maximum number of attempts they will get locked out.
@@ -183,11 +194,30 @@ class LoginController extends Controller
         // the login attempts for this application. We'll key this by the username and
         // the IP address of the client making these requests into this application.
         if ($this->hasTooManyLoginAttempts($request)) {
+            
+            //start save user details if login locked
+            $request->merge([
+                'status' => 'locked'
+            ]); 
+            $userlogin = new UserLogin();
+            $userlogin = $userlogin->create($request->toArray());
+            //end save user details if login locked
+
             $this->fireLockoutEvent($request);
             return $this->sendLockoutResponse($request);
+
         }
         // Customization: Validate if client status is active (1)
         if ($this->attemptLogin($request)) {
+            
+            //start save user details if login succeeded
+            $request->merge([
+                'status' => 'success'
+            ]);
+            $userlogin = new UserLogin();
+            $userlogin = $userlogin->create($request->toArray());
+            //end save user details if login succeeded
+
             return $this->sendLoginResponse($request);
         }
         // Customization: Validate if user status is active (1)
@@ -204,6 +234,15 @@ class LoginController extends Controller
         // Customization: If client status is inactive (0) return failed_status error.
         if ($user) {
             if ($user->status_id !== 1) {
+                
+                //start save user details if login failed
+                $request->merge([
+                    'status' => 'failed'
+                ]);
+                $userlogin = new UserLogin();
+                $userlogin = $userlogin->create($request->toArray());
+                //end save user details if login failed
+
                 return $this->sendFailedLoginResponse($request, 'auth.failed_status');
             }
         }

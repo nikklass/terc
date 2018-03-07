@@ -54,14 +54,16 @@ class ExcelController extends Controller
         $exportedExcel = $ussdContactUsToExcel->exportExcel($type, request());
     }
 
-    //export loan applications
-    public function exportLoanApplicationsToExcel($type, LoanApplication $loanApplicationsToExcel) {
-        $exportedExcel = $loanApplicationsToExcel->exportExcel($type, request());
-    }
-
     //export prayer requests
     public function exportPrayerRequestsToExcel($type, PrayerRequestsToExcel $prayerRequestsToExcel) {
         $exportedExcel = $prayerRequestsToExcel->exportExcel($type, request());
+    }
+
+    //export user logins
+    public function exportUserLoginsToExcel($type, PrayerRequestsToExcel $yehuDepositsToExcel) {
+
+        $exportedExcel = $yehuDepositsToExcel->exportExcel($type, request());
+
     }
 
 

@@ -86,9 +86,7 @@ Route::group(['middleware' => 'auth'], function() {
 
 	Route::get('/admin/excel/prayer-points/{type}', 'ExcelController@exportPrayerRequestsToExcel')->name('excel.prayer-points');
 
-	Route::get('/admin/excel/user-loan-repayment-accounts/{type}', 'ExcelController@exportUserLoanRepaymentAccountsToExcel')->name('excel.user-loan-repayment-accounts');
-	Route::get('/admin/excel/savings-deposit-accounts/{type}', 'ExcelController@exportDepositSavingsAccountsToExcel')->name('excel.savings-deposit-accounts');
-	Route::get('/admin/excel/loan-repayment-deposit-accounts/{type}', 'ExcelController@exportDepositLoanRepaymentAccountsToExcel')->name('excel.loan-repayment-deposit-accounts');
+	Route::get('excel/user-logins/{type}', 'ExcelController@exportUserLoginsToExcel')->name('excel.user-logins');
 
 	//handle bulk import user...
 	Route::get('/admin/users/create-bulk', 'UserImportController@create')->name('bulk-users.create');
@@ -159,8 +157,14 @@ Route::group(['middleware' => 'auth'], function() {
 
 //superadmin routes 
 Route::group(['middleware' => 'role:superadministrator'], function() {
+	
 	//permission routes...
 	Route::resource('/admin/permissions', 'PermissionController', ['except' => 'destroy']);
+
+	//get user logins
+	Route::get('/user-logins', 'Web\Admin\UserLoginController@index')->name('user-logins.index');
+	Route::get('/user-logins/{id}', 'Web\Admin\UserLoginController@show')->name('user-logins.show');
+
 });
 
 //superadmin and admin routes
@@ -172,6 +176,9 @@ Route::group(['middleware' => 'role:superadministrator|administrator'], function
 });
 
 Route::group(['middleware' => 'guest'], function() {
+
+	//user login routes...
+	Route::post('/users/user-logins', 'Web\Users\UserLoginController@store')->name('user-logins.store');
 
 	// Authentication Routes...
 	Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');

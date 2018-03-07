@@ -143,6 +143,15 @@
                </a>
             </li>
 
+            @if (Auth::user()->hasRole('superadministrator'))
+            <li>
+               <a href="{{ route('user-logins.index') }}">
+                  <i class="zmdi zmdi-accounts-list mr-10"></i>
+                  <span class="right-nav-text">View User logins</span>
+               </a>
+            </li>
+            @endif
+
          </ul>
       </li>
 
