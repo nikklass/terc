@@ -3,7 +3,7 @@
 
 @section('title')
 
-    Edit Ebook - {{ $ebook->id }}
+    Edit Ebook - {{ $ebook->title }}
 
 @endsection
 
