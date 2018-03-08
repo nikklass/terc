@@ -99,7 +99,7 @@
                                               Ebook PDF
                                           </label>
                                           <div class="col-sm-9">
-                                            <a href="<?=public_path()?>{{ $ebook->src }}" target="_blank">Current Ebook PDF - Click To View</a>
+                                            <a href="{{ public_path() }}{{ $ebook->src }}" target="_blank">Current Ebook PDF - Click To View</a>
                                             <br><br>
                                             Select a replacement PDF below:
                                             <br>
