@@ -100,7 +100,7 @@
                                           </label>
                                           <div class="col-sm-9">
                                           
-                                            <a href="{!! config('app.admin_url') !!}{{ $ebook->src }}" target="_blank">Current Ebook PDF - Click To View</a>
+                                            <a href="{!! config('app.url') !!}{{ $ebook->src }}" target="_blank">Current Ebook PDF - Click To View</a>
                                             <br><br>
                                             Select a replacement PDF below:
                                             <br>
