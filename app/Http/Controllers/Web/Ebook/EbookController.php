@@ -92,7 +92,7 @@ class EbookController extends Controller
         $filename = str_slug($filename) . '.' . $extension;
 
         $request->file('uploadfile')->move(
-            base_path() . '/public/files/ebooks/', $filename
+            base_path() . '/public/admin/files/ebooks/', $filename
         );
         //end upload file
 
