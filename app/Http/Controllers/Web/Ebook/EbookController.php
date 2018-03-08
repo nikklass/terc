@@ -92,7 +92,7 @@ class EbookController extends Controller
         $filename = str_slug($filename) . '.' . $extension;
 
         $request->file('uploadfile')->move(
-            base_path() . '/files/ebooks/', $filename
+            base_path() . '/public/files/ebooks/', $filename
         );
         //end upload file
 
@@ -190,11 +190,11 @@ class EbookController extends Controller
                 $filename = str_slug($filename) . '.' . $extension;
 
                 //delete current ebook pdf
-                unlink(base_path() . '/' . $ebook->src);
+                unlink(base_path() . '/public/' . $ebook->src);
                 //dd($filename, $ebook->src);
 
                 $request->file('uploadfile')->move(
-                    base_path() . '/files/ebooks/', $filename
+                    base_path() . '/public/files/ebooks/', $filename
                 );
                 //end upload file
 
