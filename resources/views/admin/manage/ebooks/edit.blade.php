@@ -96,12 +96,11 @@
                                        <div  class="form-group{{ $errors->has('uploadfile') ? ' has-error' : '' }}">
                                               
                                           <label for="uploadfile" class="col-sm-3 control-label">
-                                              Ebook PDF <br>
-                                              {!! config('app.url') !!}
+                                              Ebook PDF
                                           </label>
                                           <div class="col-sm-9">
                                           
-                                            <a href="{!! config('app.url') !!}{{ $ebook->src }}" target="_blank">Current Ebook PDF - Click To View</a>
+                                            <a href="{!! config('app.admin_url') !!}{{ $ebook->src }}" target="_blank">Current Ebook PDF - Click To View</a>
                                             <br><br>
                                             Select a replacement PDF below:
                                             <br>
