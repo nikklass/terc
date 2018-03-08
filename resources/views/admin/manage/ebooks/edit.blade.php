@@ -96,7 +96,7 @@
                                        <div  class="form-group{{ $errors->has('uploadfile') ? ' has-error' : '' }}">
                                               
                                           <label for="uploadfile" class="col-sm-3 control-label">
-                                              Ebook PDF <br>
+                                              Ebook PDF zzz <br>
                                               {{ env('app.url') }}
                                           </label>
                                           <div class="col-sm-9">
