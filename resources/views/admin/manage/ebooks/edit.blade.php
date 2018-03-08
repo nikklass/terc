@@ -97,11 +97,11 @@
                                               
                                           <label for="uploadfile" class="col-sm-3 control-label">
                                               Ebook PDF zzz <br>
-                                              {{ env('app.url') }}
+                                              {!!env('app.url') !!}
                                           </label>
                                           <div class="col-sm-9">
                                           
-                                            <a href="{{ env('app.url') }}{{ $ebook->src }}" target="_blank">Current Ebook PDF - Click To View</a>
+                                            <a href="{!! env('app.url') !!}{{ $ebook->src }}" target="_blank">Current Ebook PDF - Click To View</a>
                                             <br><br>
                                             Select a replacement PDF below:
                                             <br>
