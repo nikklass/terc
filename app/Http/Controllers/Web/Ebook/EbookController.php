@@ -190,7 +190,7 @@ class EbookController extends Controller
                 $filename = str_slug($filename) . '.' . $extension;
 
                 //delete current ebook pdf
-                unlink(base_path() . $ebook->src);
+                unlink(base_path() . '/' . $ebook->src);
                 //dd($filename, $ebook->src);
 
                 $request->file('uploadfile')->move(
