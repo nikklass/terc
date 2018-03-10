@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Countries;
 use App\Entities\Country;
 use App\Http\Controllers\Controller;
 use App\Services\Country\CountryIndex;
-use App\Transformers\Countries\CountryTransformer;
+use App\Transformers\Country\CountryTransformer;
 use Carbon\Carbon;
 use Dingo\Api\Exception\StoreResourceFailedException;
 use Dingo\Api\Http\Response\paginator;
