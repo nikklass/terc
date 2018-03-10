@@ -91,7 +91,11 @@ $api->version('v1', function($api){
 
         $api->group(['middleware' => ['auth:api'], ], function ($api) {
             
-            
+            //user
+            $api->group(['prefix' => 'user'], function ($api) {
+                $api->get('/', 'Api\Users\ApiUsersController@loggeduser');
+            });
+
             //Accounts
             $api->group(['prefix' => 'accounts'], function ($api) {
                 $api->get('/', 'Api\Account\ApiAccountController@index');
