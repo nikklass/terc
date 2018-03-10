@@ -11,6 +11,24 @@ $api->version('v1', function($api){
         //login and refresh token
         $api->post('/login', 'Api\Users\ApiLoginController@login');
 
+        //countries
+        $api->group(['prefix' => 'countries'], function ($api) {
+            $api->get('/', 'Api\Countries\ApiCountriesController@index');
+            $api->get('/{id}', 'Api\Countries\ApiCountriesController@show');
+        });
+
+        //states
+        $api->group(['prefix' => 'states'], function ($api) {
+            $api->get('/', 'Api\States\ApiStatesController@index');
+            $api->get('/{id}', 'Api\States\ApiStatesController@show');
+        });
+
+        //cities
+        $api->group(['prefix' => 'cities'], function ($api) {
+            $api->get('/', 'Api\Cities\ApiCitiesController@index');
+            $api->get('/{id}', 'Api\Cities\ApiCitiesController@show');
+        });
+
         //ussd registration routes
         $api->group(['prefix' => 'ussd-registration'],function ($api) {
             $api->post('/', 'Api\Ussd\ApiUssdRegistrationController@store');
