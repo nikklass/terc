@@ -5,7 +5,7 @@ namespace App\Entities;
 use App\Entities\LeadershipTeam;
 use App\Entities\State;
 use App\Entities\Status;
-use App\Entities\User;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;

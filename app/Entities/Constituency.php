@@ -3,7 +3,7 @@
 namespace App\Entities;
 
 use App\Entities\State;
-use App\Entities\User;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
