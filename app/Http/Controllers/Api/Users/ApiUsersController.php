@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers\Api\Users;
 
+use App\Entities\ConfirmCode;
 use App\Http\Controllers\BaseController;
+use App\Services\User\UserIndex;
 use App\Services\User\UserStore;
 use App\Transformers\Users\UserTransformer;
 use App\User;
 use Dingo\Api\Exception\StoreResourceFailedException;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class ApiUsersController
  * @package App\Http\Controllers\Users
- * @author Jose Fonseca <jose@ditecnologia.com>
  */
 class ApiUsersController extends BaseController
 {
@@ -32,17 +34,31 @@ class ApiUsersController extends BaseController
         $this->model = $model;
     }
 
-
     /**
      * Returns the Users resource with the roles relation
      * @param Request $request
      * @return mixed
      */
-    public function index(Request $request)
+    public function index(Request $request, UserIndex $userIndex)
     {
-        $paginator = $this->model->with('roles.permissions')
-            ->paginate($request->get('limit', config('app.pagination_limit')));
-        return $this->response->paginator($paginator, new UserTransformer());
+        
+        //get the data
+        $data = $userIndex->getUsers($request);
+
+        //are we in report mode?
+        if (!$request->report) {
+
+            $data = $this->response->paginator($data, new UserTransformer());
+
+        } else {
+
+            $data = $data->get();
+            $data = $this->response->collection($data, new UserTransformer());
+
+        }
+
+        return $data;
+
     }
 
 
@@ -54,6 +70,136 @@ class ApiUsersController extends BaseController
     {
         $user = $this->model->with('roles.permissions')->byUuid($id)->firstOrFail();
         return $this->response->item($user, new UserTransformer());
+    }
+
+    /**
+     * get logged in user
+     */
+    public function loggeduser()
+    {
+        $user = auth()->user();
+        return $this->response->item($user, new UserTransformer());
+    }
+
+    /**
+     * confirm an account
+     * @param Request $request
+     * @return mixed
+     */
+    public function accountconfirm(Request $request)
+    {
+
+        $rules = [
+            'phone_country' => 'required_with:phone',
+            'phone' => 'required|phone:mobile',
+            'confirm_code' => 'required',
+        ];
+
+        $payload = app('request')->only('confirm_code', 'phone', 'phone_country');
+
+        $validator = app('validator')->make($payload, $rules);
+
+        if ($validator->fails()) {
+            throw new StoreResourceFailedException($error_messages);
+        }
+
+        //set variables
+        $status_active = config('constants.status.active');
+        $status_disabled = config('constants.status.disabled');
+
+        $phone_country = $request->phone_country;
+        $phone = $request->phone;
+        $email = $request->email;
+        $confirm_code = $request->confirm_code;
+        
+        //DB::enableQueryLog();
+
+        //get user account if active, join to confirm_codes table where status_id = 1
+        $local_phone = getLocalisedPhoneNumber($phone, $phone_country);
+        $full_phone = getDatabasePhoneNumber($phone, $phone_country);
+        
+        $user = DB::table('users')
+                        ->when($phone, function ($query) use ($local_phone, $phone_country) {
+                            $query->where('users.phone', $local_phone)
+                                  ->where('users.phone_country', $phone_country);
+                        }, function ($query) use ($email) {
+                            $query->where('users.email', $email);
+                        })
+                        ->first();
+
+        if (!$user) {
+
+            $error_message['user'] = 'User account does not exist';
+            $error_message = json_encode($error_message);
+
+            throw new StoreResourceFailedException($error_message);
+
+        } else {
+
+            if ($user->active == 1) {
+
+                $error_message['user'] = 'User account is already active';
+                $error_message = json_encode($error_message);
+
+                throw new StoreResourceFailedException($error_message);
+
+            } 
+
+            //check if supplied code is active
+            $code_data = ConfirmCode::where('confirm_code', '=', $confirm_code)
+                            ->where('status_id', '=', $status_active)
+                            ->when($phone, function ($query) use ($full_phone, $phone_country) {
+                                $query->where('phone', $full_phone)
+                                      ->where('phone_country', $phone_country);
+                            }, function ($query) use ($email) {
+                                $query->where('email', $email);
+                            })
+                            ->first();
+
+            if (!$code_data) {
+
+                $error_message['user'] = 'Invalid confirmation code';
+                $error_message = json_encode($error_message);
+
+                throw new StoreResourceFailedException($error_message);
+
+            } 
+            //end check if supplied code is active
+
+            //update the user record
+            DB::table('users')
+                ->when($phone, function ($query) use ($local_phone, $phone_country) {
+                    $query->where('phone', $local_phone)
+                          ->where('phone_country', $phone_country);
+                }, function ($query) use ($email) {
+                    $query->where('email', $email);
+                })
+                ->update(['status_id' => $status_active, 'active' => '1']);
+
+            //update the confirm codes record, set to disabled
+            $update_confirm_code = DB::table('confirm_codes')
+                ->where('confirm_code', '=', $confirm_code)
+                ->when($phone, function ($query) use ($full_phone, $phone_country) {
+                    $query->where('phone', $full_phone)
+                          ->where('phone_country', $phone_country);
+                }, function ($query) use ($email) {
+                    $query->where('email', $email);
+                })
+                ->update(['status_id' => $status_disabled]);
+
+            //print_r(DB::getQueryLog());
+
+            //$message = 'Welcome. Your account successfully confirmed.';
+
+            //return ['message' => $message];
+            $user = $this->model->where('phone', $local_phone)
+                                ->where('phone_country', $phone_country)
+                                ->first();
+                                
+            return $this->response->item($user, new UserTransformer)->setStatusCode(200);
+
+        }
+
     }
 
 
@@ -68,13 +214,13 @@ class ApiUsersController extends BaseController
             'first_name' => 'required',
             'last_name' => 'required',
             'phone_country' => 'required_with:phone',
-            'phone' => 'required|phone:mobile',
+            'phone' => 'required|phone:mobile|unique:users,phone',
             'email' => 'sometimes|nullable|email|unique:users,email',
             'password' => 'required|min:8|confirmed',
-            'company_id' => 'required|integer',
+            //'company_id' => 'required|integer',
         ];
 
-        $payload = app('request')->only('first_name', 'last_name', 'phone', 'phone_country', 'email', 'password', 'password_confirmation', 'company_id');
+        $payload = app('request')->only('first_name', 'last_name', 'phone', 'phone_country', 'email', 'password', 'password_confirmation');
         $validator = app('validator')->make($payload, $rules);
 
         if ($validator->fails()) {
@@ -86,7 +232,8 @@ class ApiUsersController extends BaseController
         if ($request->has('roles')) {
             $user->syncRoles($request['roles']);
         }
-        return $this->response->created(url('api/users/'.$user->uuid));
+        //return $this->response->created();
+        return ['message' => 'User created.'];
     }
 
 
