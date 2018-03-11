@@ -3,12 +3,11 @@
 namespace App\Listeners;
 
 use App\Events\Registered;
-use App\Mail\NewUserWelcome;
+use App\Mail\NewUserConfirm;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use Mail;
 
-class SendWelcomeEmail
+class SendConfirmEmail
 {
     /**
      * Create the event listener.
@@ -31,7 +30,7 @@ class SendWelcomeEmail
         //if user has email address, send an email to user
         if ($event->user->email) {
             Mail::to($event->user->email)
-                ->send(new NewUserWelcome($event->user));
+                ->send(new NewUserConfirm($event->user));
         }
     }
 }

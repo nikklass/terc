@@ -13,6 +13,7 @@ use App\Entities\PrayerRequest;
 use App\Entities\Sacco;
 use App\Entities\SmsOutbox;
 use App\Entities\State;
+use App\Events\Registered;
 use App\Support\UuidScopeTrait;
 use Carbon\Carbon;
 use Dingo\Api\Exception\StoreResourceFailedException;
@@ -41,7 +42,7 @@ class User extends Authenticatable
 
     /*object events*/
     protected $events = [
-        'updated' => Events\AccountAdded::class,
+        'updated' => Events\Registered::class,
     ];
 
     /**

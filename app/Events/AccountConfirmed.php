@@ -9,9 +9,8 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use App\User;
 
-class Registered
+class AccountConfirmed
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -24,6 +23,7 @@ class Registered
      */
     public function __construct(User $user)
     {
+        //dd($user);
         $this->user = $user;
     }
 

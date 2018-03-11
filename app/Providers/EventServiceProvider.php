@@ -14,6 +14,9 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         'App\Events\Registered' => [
+            'App\Listeners\SendConfirmEmail',
+        ],
+        'App\Events\AccountConfirmed' => [
             'App\Listeners\SendWelcomeEmail',
         ],
         'App\Events\SmsOutboxCreated' => [
