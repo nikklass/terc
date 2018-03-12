@@ -11,7 +11,7 @@ Your email address: {{ $user->email }} <br>
 Confirmation code: {{ $user->getActiveConfirmCode('', '', $user->email) }} <br>
 @endcomponent
 
-@component('mail::button', ['url' => {{ config('app.url') }}])
+@component('mail::button', ['url' => config('app.url') ])
 View Website
 @endcomponent
 
