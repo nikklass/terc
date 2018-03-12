@@ -38,5 +38,40 @@ return [
     ],
     'mpesa' => [
         'getpayments_url' => $remote_base_api_url . 'api/mpesa/getpayments',
+    ],
+
+    'images' => [
+        'no_image_full' => "images/no_image.jpg",
+        'no_image_thumb' => "images/no_image.jpg",
+        'no_image_thumb_400' => "images/no_image.jpg",
+    ],
+    'settings' => [
+        'app_mode' => env('APP_MODE'),
+        'app_short_name' => env('APP_SHORT_NAME'),
+        'pendoadmin_app_name' => env('PENDOADMIN_APP_NAME'),
+    ],
+    'pendoadmin_passport' => [
+        'username' => env('PENDOADMIN_PASSPORT_USERNAME'),
+        'password' => env('PENDOADMIN_PASSPORT_PASSWORD'),
+        'token_url' => $remote_pendo_admin_api_url . 'login',
+    ],
+    'sms_types' => [ 
+        'registration_sms' => "1",
+        'recommendation_sms' => "2",
+        'resent_registration_sms' => "3",
+        'forgot_password_sms' => "4",
+        'confirm_number_sms' => "5",
+        'company_sms' => "6",
+    ],
+    'status' => [ 
+        'active' => "1",
+        'disabled' => "2",
+        'suspended' => "3",
+        'expired' => "4",
+        'pending' => "5",
+        'confirmed' => "6",
+        'cancelled' => "7",
+        'sent' => "8",
+        'inactive' => "99",
     ]
 ];

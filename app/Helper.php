@@ -161,6 +161,48 @@ function sendApiSms($data) {
 
 //******************* END SMS API FUNCTIONS ********************//
 
+function createConfirmCode($confirm_code, $sms_type_id, $user_id, $phone='', $phone_country='', $email='') {
+
+    //start disable any previous sent registration sms to this number
+    $status_disabled = config('constants.status.disabled');
+    $status_active = config('constants.status.active');
+
+    if ($email) {
+        
+        DB::table('confirm_codes')
+                    ->where('user_id', $user_id)
+                    ->where('email', $email)
+                    ->where('sms_type_id', $sms_type_id)
+                    ->where('status_id', $status_active)
+                    ->update(['status_id' => $status_disabled]);
+
+        $attributes['email'] = $email;
+
+    } else {
+        
+        DB::table('confirm_codes')
+                    ->where('user_id', $user_id)
+                    ->where('phone', $phone)
+                    ->where('sms_type_id', $sms_type_id)
+                    ->where('status_id', $status_active)
+                    ->update(['status_id' => $status_disabled]);
+
+        $attributes['phone'] = $phone;
+        $attributes['phone_country'] = $phone_country;
+
+    }
+    
+    //end disable any previous sent registration sms to this number
+
+    //start create new confirm code                
+    $attributes['confirm_code'] = $confirm_code;
+    $attributes['status_id'] = $status_active;
+    $attributes['sms_type_id'] = $sms_type_id;
+    $attributes['user_id'] = $user_id;
+
+    ConfirmCode::create($attributes);
+    //end create new sms confirm code
+}
 
 function createSmsOutbox($message, $phone) {
 	

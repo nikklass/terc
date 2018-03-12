@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\Registered;
+use App\Events\UserCreated;
 use App\Mail\NewUserConfirm;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -22,15 +22,71 @@ class SendConfirmEmail
     /**
      * Handle the event.
      *
-     * @param  Registered  $event
+     * @param  UserCreated  $event
      * @return void
      */
-    public function handle(Registered $event)
+    public function handle(UserCreated $event)
     {
         //if user has email address, send an email to user
-        if ($event->user->email) {
-            Mail::to($event->user->email)
-                ->send(new NewUserConfirm($event->user));
+        if ($event->user) {
+
+            ///////
+            $new_user = $event->user;
+            $user_id = $new_user->id;
+            $phone_country = $new_user->phone_country;
+            $phone = $new_user->phone;
+            $email = $new_user->email;
+            $first_name = $new_user->first_name;
+            $sms_type_id = config('constants.sms_types.registration_sms');
+
+            //start send confirm sms to user *****************//
+            $phone = getDatabasePhoneNumber($phone, $phone_country);
+            $code = generateCode(5);
+            $message = "Dear $first_name, this is your account confirmation code: $code";
+
+            //start attempt to send sms
+            try {
+
+                //send user sms
+                //createSmsOutbox($message, $phone, $sms_type_id);
+
+            } catch(\Exception $e) {
+                
+                log_this($e->getMessage());
+                throw new StoreResourceFailedException('Error sending sms - ' . $e);
+
+            }
+            //end attempt to send sms
+
+            //start store confirm code
+            try {
+
+                //send user sms
+                createConfirmCode($code, $sms_type_id, $user_id, $phone, $phone_country, $email);
+
+            } catch(\Exception $e) {
+                
+                log_this($e->getMessage());
+                throw new StoreResourceFailedException('Error saving confirm code - ' . $e);
+
+            }
+            //end store confirm code
+
+            //start send email if email exists
+            if ($event->user->email) {
+                
+                try {
+                    Mail::to($event->user->email)
+                    ->send(new NewUserConfirm($event->user));
+                } catch(\Exception $e) {
+                    log_this($e->getMessage());
+                    throw new StoreResourceFailedException('Error sending email - ' . $e);
+                }
+
+            }
+            //end send email if email exists
+            ///////
+
         }
     }
 }
