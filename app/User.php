@@ -104,7 +104,7 @@ class User extends Authenticatable
         return $this->hasMany(SmsOutbox::class);
     }
 
-    public static function getActiveConfirmCode($phone='', $phone_country='', $email='')
+    public function getActiveConfirmCode($phone='', $phone_country='', $email='')
     {
         $code = ConfirmCode::where('user_id', $this->id)
                 ->when($phone, function ($query) use ($phone, $phone_country) {
