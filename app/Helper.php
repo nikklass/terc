@@ -1330,3 +1330,25 @@ function getTokenGuzzleClient()
         ]
     ]);
 }
+
+function log_this($lmsg, $logname='')
+{ 
+
+    $app_short_name = config('constants.settings.app_short_name');
+    //set the log file name
+    if (!$logname) { $logname = $app_short_name; }
+
+    $date = Carbon::now();
+    $date = getLocalDate($date);
+    $short_date = $date->format('Ymd'); 
+    $full_date = $date->format('Y-m-d H:i:s T: '); 
+    
+    //write to the log file
+    //$ip_address = request()->ip;
+    $flog = sprintf("/data/log/" . $logname . "_%s.log", $short_date);
+    $tlog = sprintf("\n%s : %s", $full_date, $lmsg);
+    $f    = fopen($flog, "a");
+    fwrite($f, $tlog);
+    fclose($f);
+
+}
