@@ -8,7 +8,7 @@ Use the details below to confirm your account:
 
 @component('mail::panel')
 Your email address: {{ $user->email }} <br>
-Confirmation code: {{ $user->email }} <br>
+Confirmation code: {{ $user->getActiveConfirmCode('', '', $user->email) }} <br>
 @endcomponent
 
 @component('mail::button', ['url' => 'http://41.215.126.10/terc'])
