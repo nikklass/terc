@@ -53,7 +53,7 @@ return [
     'pendoadmin_passport' => [
         'username' => env('PENDOADMIN_PASSPORT_USERNAME'),
         'password' => env('PENDOADMIN_PASSPORT_PASSWORD'),
-        'token_url' => $remote_pendo_admin_api_url . 'login',
+        'token_url' => $remote_pendo_api_url . 'login',
     ],
     'sms_types' => [ 
         'registration_sms' => "1",
