@@ -6,6 +6,7 @@ use App\Events\UserCreated;
 use App\Mail\NewUserConfirm;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Mail;
 
 class SendConfirmEmail
 {
