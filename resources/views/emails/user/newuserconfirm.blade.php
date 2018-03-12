@@ -1,8 +1,8 @@
 @component('mail::message')
 # Welcome {{ $user->first_name }},
 
-Your account has just been added on TERC. <br>
-You need to confirm your account before using it.<br><br>
+Your account has just been added on {{ config('app.name') }}. <br>
+You need to confirm your account before you can use it.<br><br>
 Use the details below to confirm your account:
 <br><br>
 
