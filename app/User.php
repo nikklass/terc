@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Entities\Account;
+use App\Entities\ConfirmCode;
 use App\Entities\Country;
 use App\Entities\DepositAccount;
 use App\Entities\Group;
