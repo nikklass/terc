@@ -3,6 +3,7 @@ session_start();
 
 use App\Entities\Account;
 use App\Entities\Company;
+use App\Entities\ConfirmCode;
 use App\Entities\Group;
 use App\Entities\MpesaPaybill;
 use App\Entities\Product;
