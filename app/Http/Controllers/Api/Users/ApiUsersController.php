@@ -160,8 +160,8 @@ class ApiUsersController extends BaseController
             //check if supplied code is active
             $code_data = ConfirmCode::where('confirm_code', '=', $confirm_code)
                             ->where('status_id', '=', $status_active)
-                            ->when($local_phone, function ($query) use ($full_phone, $phone_country) {
-                                $query->where('phone', $full_phone)
+                            ->when($local_phone, function ($query) use ($local_phone, $phone_country) {
+                                $query->where('phone', $local_phone)
                                       ->where('phone_country', $phone_country);
                             }, function ($query) use ($email) {
                                 $query->where('email', $email);
@@ -193,8 +193,8 @@ class ApiUsersController extends BaseController
             //update the confirm codes record, set to disabled
             $update_confirm_code = DB::table('confirm_codes')
                 ->where('confirm_code', '=', $confirm_code)
-                ->when($local_phone, function ($query) use ($full_phone, $phone_country) {
-                    $query->where('phone', $full_phone)
+                ->when($local_phone, function ($query) use ($local_phone, $phone_country) {
+                    $query->where('phone', $local_phone)
                           ->where('phone_country', $phone_country);
                 }, function ($query) use ($email) {
                     $query->where('email', $email);
