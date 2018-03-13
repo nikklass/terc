@@ -118,7 +118,7 @@ class ApiUsersController extends BaseController
         //check whether entry is an email or not
         // check login field
         $login_type = filter_var( $phone, FILTER_VALIDATE_EMAIL ) ? 'email' : 'phone';
-        //dd($login_type);
+        dump($login_type);
 
         if ($login_type == 'email') {
             $email = $phone;
@@ -127,6 +127,8 @@ class ApiUsersController extends BaseController
             $local_phone = getLocalisedPhoneNumber($phone, $phone_country);
             $full_phone = getDatabasePhoneNumber($phone, $phone_country);
         }
+
+        dd($email, $local_phone);
         
         $user = DB::table('users')
                         ->when($local_phone, function ($query) use ($local_phone, $phone_country) {
