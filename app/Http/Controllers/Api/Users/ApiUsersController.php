@@ -119,7 +119,7 @@ class ApiUsersController extends BaseController
         //check whether entry is an email or not
         // check login field
         $login_type = filter_var( $phone, FILTER_VALIDATE_EMAIL ) ? 'email' : 'phone';
-        dump($login_type);
+        //dump($login_type);
 
         if ($login_type == 'email') {
             $email = $phone;
@@ -137,8 +137,6 @@ class ApiUsersController extends BaseController
                             $query->where('users.email', $email);
                         })
                         ->first();
-
-        dd($email, $local_phone, $user);
 
         if (!$user) {
 
@@ -168,6 +166,8 @@ class ApiUsersController extends BaseController
                                 $query->where('email', $email);
                             })
                             ->first();
+
+            dd($email, $local_phone, $code_data);
 
             if (!$code_data) {
 
