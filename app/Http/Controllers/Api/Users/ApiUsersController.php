@@ -91,7 +91,8 @@ class ApiUsersController extends BaseController
 
         $rules = [
             'phone_country' => 'required_with:phone',
-            'phone' => 'required|phone:mobile',
+            'phone' => 'required',
+            //'test'=> 'sometimes|nullable|min:6'
             'confirm_code' => 'required',
         ];
 
@@ -109,10 +110,15 @@ class ApiUsersController extends BaseController
 
         $phone_country = $request->phone_country;
         $phone = $request->phone;
-        $email = $request->email;
         $confirm_code = $request->confirm_code;
         
         //DB::enableQueryLog();
+
+        //check whether entry is an email or not
+        $login = $request->phone;
+        // check login field
+        $login_type = filter_var( $login, FILTER_VALIDATE_EMAIL ) ? 'email' : 'phone';
+        dd($login_type);
 
         //get user account if active, join to confirm_codes table where status_id = 1
         $local_phone = getLocalisedPhoneNumber($phone, $phone_country);
