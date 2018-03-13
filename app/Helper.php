@@ -171,7 +171,6 @@ function createConfirmCode($confirm_code, $sms_type_id, $user_id, $phone='', $ph
     if ($email) {
         
         DB::table('confirm_codes')
-                    ->where('user_id', $user_id)
                     ->where('email', $email)
                     ->where('sms_type_id', $sms_type_id)
                     ->where('status_id', $status_active)
@@ -182,7 +181,6 @@ function createConfirmCode($confirm_code, $sms_type_id, $user_id, $phone='', $ph
     } else {
         
         DB::table('confirm_codes')
-                    ->where('user_id', $user_id)
                     ->where('phone', $phone)
                     ->where('sms_type_id', $sms_type_id)
                     ->where('status_id', $status_active)

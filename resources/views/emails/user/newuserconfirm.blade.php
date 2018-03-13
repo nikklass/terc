@@ -10,7 +10,7 @@ Use the details below to confirm your account:
 Your country: {{ $user->country->name }} <br>
 Your phone number: {{ $user->phone }} <br>
 Your email address: {{ $user->email }} <br>
-Confirmation code: {{ $user->getActiveConfirmCode('', '', $user->email)->confirm_code }} <br>
+Confirmation code: {{ $user->getActiveConfirmCode('', '', $user->email) }} <br>
 @endcomponent
 
 @component('mail::button', ['url' => config('app.url') ])

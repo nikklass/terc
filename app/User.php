@@ -106,15 +106,17 @@ class User extends Authenticatable
 
     public function getActiveConfirmCode($phone='', $phone_country='', $email='')
     {
+        $status_active = config('constants.status.active');
         $code = ConfirmCode::where('user_id', $this->id)
+                ->where('status_id', $status_active)
                 ->when($phone, function ($query) use ($phone, $phone_country) {
                     $query->where('phone', $phone)
                           ->where('phone_country', $phone_country);
                 }, function ($query) use ($email) {
                     $query->where('email', $email);
                 })
-                ->first();
-                //->pluck('confirm_code');
+                //->first();
+                ->pluck('confirm_code');
         return $code;
     }
 
@@ -146,7 +148,8 @@ class User extends Authenticatable
     /*get user for passport login*/
     public function findForPassport($username) {
 
-        return $this->where('active', '1')
+        $status_active = config('constants.status.active');
+        return $this->where('active', $status_active)
                     ->where(function ($query) use ($username) {
                         $query->where('email', $username)
                               ->orWhere('phone', $username);
