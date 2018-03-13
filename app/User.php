@@ -113,7 +113,9 @@ class User extends Authenticatable
                 }, function ($query) use ($email) {
                     $query->where('email', $email);
                 })
-                ->pluck('confirm_code');
+                ->first()
+                ->confirm_code;
+                //->pluck('confirm_code');
         return $code;
     }
 
