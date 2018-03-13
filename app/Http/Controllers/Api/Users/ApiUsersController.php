@@ -115,13 +115,12 @@ class ApiUsersController extends BaseController
         //DB::enableQueryLog();
 
         //check whether entry is an email or not
-        $login = $request->phone;
         // check login field
-        $login_type = filter_var( $login, FILTER_VALIDATE_EMAIL ) ? 'email' : 'phone';
+        $login_type = filter_var( $phone, FILTER_VALIDATE_EMAIL ) ? 'email' : 'phone';
         //dd($login_type);
 
         if ($login_type == 'email') {
-            $email = $request->phone;
+            $email = $phone;
         } else {
             //get user account if active, join to confirm_codes table where status_id = 1
             $local_phone = getLocalisedPhoneNumber($phone, $phone_country);
@@ -129,7 +128,7 @@ class ApiUsersController extends BaseController
         }
         
         $user = DB::table('users')
-                        ->when($phone, function ($query) use ($local_phone, $phone_country) {
+                        ->when($local_phone, function ($query) use ($local_phone, $phone_country) {
                             $query->where('users.phone', $local_phone)
                                   ->where('users.phone_country', $phone_country);
                         }, function ($query) use ($email) {
@@ -158,7 +157,7 @@ class ApiUsersController extends BaseController
             //check if supplied code is active
             $code_data = ConfirmCode::where('confirm_code', '=', $confirm_code)
                             ->where('status_id', '=', $status_active)
-                            ->when($phone, function ($query) use ($full_phone, $phone_country) {
+                            ->when($local_phone, function ($query) use ($full_phone, $phone_country) {
                                 $query->where('phone', $full_phone)
                                       ->where('phone_country', $phone_country);
                             }, function ($query) use ($email) {
@@ -178,7 +177,7 @@ class ApiUsersController extends BaseController
 
             //update the user record
             DB::table('users')
-                ->when($phone, function ($query) use ($local_phone, $phone_country) {
+                ->when($local_phone, function ($query) use ($local_phone, $phone_country) {
                     $query->where('phone', $local_phone)
                           ->where('phone_country', $phone_country);
                 }, function ($query) use ($email) {
@@ -189,7 +188,7 @@ class ApiUsersController extends BaseController
             //update the confirm codes record, set to disabled
             $update_confirm_code = DB::table('confirm_codes')
                 ->where('confirm_code', '=', $confirm_code)
-                ->when($phone, function ($query) use ($full_phone, $phone_country) {
+                ->when($local_phone, function ($query) use ($full_phone, $phone_country) {
                     $query->where('phone', $full_phone)
                           ->where('phone_country', $phone_country);
                 }, function ($query) use ($email) {
