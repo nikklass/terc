@@ -168,7 +168,7 @@ class ApiUsersController extends BaseController
                             })
                             ->first();
 
-            dd($email, $local_phone, $code_data);
+            //dd($email, $local_phone, $code_data);
 
             if (!$code_data) {
 
