@@ -31,6 +31,11 @@ class NewUserConfirm extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.user.newuserconfirm');
+
+        $app_name = config('app.name');
+        $first_name = $this->user->first_name;
+
+        return $this->subject(ucfirst($first_name) . ', please confirm ' . $app_name . ' registration')
+                        ->markdown('emails.user.newuserconfirm');
     }
 }
