@@ -178,10 +178,22 @@ function createConfirmCode($confirm_code, $sms_type_id, $user_id, $phone='', $ph
 
         $attributes['email'] = $email;
 
-    } else {
+        //start create new confirm code                
+        $attributes['confirm_code'] = $confirm_code;
+        $attributes['status_id'] = $status_active;
+        $attributes['sms_type_id'] = $sms_type_id;
+        $attributes['user_id'] = $user_id;
+
+        ConfirmCode::create($attributes);
+        //end create new sms confirm code
+
+    } 
+
+    if ($phone && $phone_country) {
         
         DB::table('confirm_codes')
                     ->where('phone', $phone)
+                    ->where('phone_country', $phone_country)
                     ->where('sms_type_id', $sms_type_id)
                     ->where('status_id', $status_active)
                     ->update(['status_id' => $status_disabled]);
@@ -189,18 +201,19 @@ function createConfirmCode($confirm_code, $sms_type_id, $user_id, $phone='', $ph
         $attributes['phone'] = $phone;
         $attributes['phone_country'] = $phone_country;
 
+        //start create new confirm code                
+        $attributes['confirm_code'] = $confirm_code;
+        $attributes['status_id'] = $status_active;
+        $attributes['sms_type_id'] = $sms_type_id;
+        $attributes['user_id'] = $user_id;
+
+        ConfirmCode::create($attributes);
+        //end create new sms confirm code
+
     }
     
     //end disable any previous sent registration sms to this number
-
-    //start create new confirm code                
-    $attributes['confirm_code'] = $confirm_code;
-    $attributes['status_id'] = $status_active;
-    $attributes['sms_type_id'] = $sms_type_id;
-    $attributes['user_id'] = $user_id;
-
-    ConfirmCode::create($attributes);
-    //end create new sms confirm code
+    
 }
 
 function createSmsOutbox($message, $phone) {

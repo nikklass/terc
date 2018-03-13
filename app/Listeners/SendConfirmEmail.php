@@ -60,20 +60,6 @@ class SendConfirmEmail
             }
             //end attempt to send sms
 
-            //start store confirm code
-            try {
-
-                //send user sms
-                createConfirmCode($code, $sms_type_id, $user_id, $phone, $phone_country, $email);
-
-            } catch(\Exception $e) {
-                
-                log_this($e->getMessage());
-                throw new StoreResourceFailedException('Error saving confirm code - ' . $e);
-
-            }
-            //end store confirm code
-
             //start send email if email exists
             if ($event->user->email) {
                 
@@ -87,6 +73,20 @@ class SendConfirmEmail
 
             }
             //end send email if email exists
+
+            //start store confirm codes
+            try {
+
+                //send user sms
+                createConfirmCode($code, $sms_type_id, $user_id, $phone, $phone_country, $email);
+
+            } catch(\Exception $e) {
+                
+                log_this($e->getMessage());
+                throw new StoreResourceFailedException('Error saving confirm code - ' . $e);
+
+            }
+            //end store confirm codes
             ///////
 
         }
