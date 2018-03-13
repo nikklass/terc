@@ -114,7 +114,7 @@ class User extends Authenticatable
                     $query->where('email', $email);
                 })
                 ->first()
-                ->confirm_code;
+                ->CONFIRM_CODE;
                 //->pluck('confirm_code');
         return $code;
     }
