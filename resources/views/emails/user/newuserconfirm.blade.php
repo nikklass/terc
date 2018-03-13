@@ -13,10 +13,6 @@ Your email address: {{ $user->email }} <br>
 Confirmation code: {{ $user->getActiveConfirmCode('', '', $user->email) }} <br>
 @endcomponent
 
-@component('mail::button', ['url' => config('app.url') ])
-View Website
-@endcomponent
-
 Thanks,<br>
 {{ config('app.name') }}
 @endcomponent
