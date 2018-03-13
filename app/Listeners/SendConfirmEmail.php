@@ -42,7 +42,7 @@ class SendConfirmEmail
             $sms_type_id = config('constants.sms_types.registration_sms');
 
             //start send confirm sms to user *****************//
-            $phone = getDatabasePhoneNumber($phone, $phone_country);
+            $db_phone = getDatabasePhoneNumber($phone, $phone_country);
             $code = generateCode(5);
             $message = "Dear $first_name, this is your account confirmation code: $code";
 
@@ -50,7 +50,7 @@ class SendConfirmEmail
             try {
 
                 //send user sms
-                //createSmsOutbox($message, $phone, $sms_type_id);
+                //createSmsOutbox($message, $db_phone, $sms_type_id);
 
             } catch(\Exception $e) {
                 
