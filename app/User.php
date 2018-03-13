@@ -86,7 +86,7 @@ class User extends Authenticatable
     /*one to many relationship*/
     public function country()
     {
-        return $this->belongsTo(Country::class);
+        return $this->belongsTo(Country::class, 'phone_country', 'sortname');
     }
 
     public function state()
