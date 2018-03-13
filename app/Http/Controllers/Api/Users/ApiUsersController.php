@@ -111,6 +111,7 @@ class ApiUsersController extends BaseController
         $phone_country = $request->phone_country;
         $phone = $request->phone;
         $confirm_code = $request->confirm_code;
+        $email = '';
         
         //DB::enableQueryLog();
 
