@@ -118,11 +118,15 @@ class ApiUsersController extends BaseController
         $login = $request->phone;
         // check login field
         $login_type = filter_var( $login, FILTER_VALIDATE_EMAIL ) ? 'email' : 'phone';
-        dd($login_type);
+        //dd($login_type);
 
-        //get user account if active, join to confirm_codes table where status_id = 1
-        $local_phone = getLocalisedPhoneNumber($phone, $phone_country);
-        $full_phone = getDatabasePhoneNumber($phone, $phone_country);
+        if ($login_type == 'email') {
+            $email = $request->phone;
+        } else {
+            //get user account if active, join to confirm_codes table where status_id = 1
+            $local_phone = getLocalisedPhoneNumber($phone, $phone_country);
+            $full_phone = getDatabasePhoneNumber($phone, $phone_country);
+        }
         
         $user = DB::table('users')
                         ->when($phone, function ($query) use ($local_phone, $phone_country) {
