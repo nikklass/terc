@@ -128,8 +128,6 @@ class ApiUsersController extends BaseController
             $local_phone = getLocalisedPhoneNumber($phone, $phone_country);
             $full_phone = getDatabasePhoneNumber($phone, $phone_country);
         }
-
-        dd($email, $local_phone);
         
         $user = DB::table('users')
                         ->when($local_phone, function ($query) use ($local_phone, $phone_country) {
@@ -139,6 +137,8 @@ class ApiUsersController extends BaseController
                             $query->where('users.email', $email);
                         })
                         ->first();
+
+        dd($email, $local_phone, $user);
 
         if (!$user) {
 
