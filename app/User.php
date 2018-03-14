@@ -111,9 +111,9 @@ class User extends Authenticatable
                 ->where('status_id', $status_active)
                 ->when($phone, function ($query) use ($phone, $phone_country) {
                     $query->where('phone', $phone)
-                          ->where('phone_country', $phone_country)
+                          ->where('phone_country', $phone_country);
                 }, function ($query) use ($email) {
-                    $query->where('email', $email)
+                    $query->where('email', $email);
                 })
                 ->pluck('confirm_code');
         return $code;
