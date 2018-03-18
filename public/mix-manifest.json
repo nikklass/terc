@@ -16,5 +16,7 @@
   "/js/adminhome.js": "/js/adminhome.js",
   "/js/admincreateuser.js": "/js/admincreateuser.js",
   "/admin/js/app.js": "/admin/js/app.js",
-  "/admin/css/app.css": "/admin/css/app.css"
+  "/admin/css/app.css": "/admin/css/app.css",
+  "/site/css/app.css": "/site/css/app.css",
+  "/site/js/app.js": "/site/js/app.js"
 }

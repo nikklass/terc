@@ -42,8 +42,8 @@
     'pagination_limit' => '10',
     'pendoapi_client_id' => '2',
     'pendoapi_client_secret' => '06Xd9HYyfu95IkHQt7Lykkt50wr3lSiPoGFF4WRP',
-    'password_client_id' => '',
-    'password_client_secret' => '',
+    'password_client_id' => '2',
+    'password_client_secret' => '4olx7p6qPW5H6kURm1s2QCEIS8yePW5NrFkGg9QD',
     'cache_minutes' => '5',
     'cache_minutes_low' => '60',
     'local_timezone' => 'Africa/Nairobi',
@@ -272,10 +272,10 @@
   array (
     'account_settings' => 
     array (
-      'default_group_cd' => '901',
-      'default_account_type_cd' => '30',
-      'savings_account_product_id' => '3',
-      'loan_repayment_account_product_id' => '2',
+      'default_group_cd' => NULL,
+      'default_account_type_cd' => NULL,
+      'savings_account_product_id' => NULL,
+      'loan_repayment_account_product_id' => NULL,
     ),
     'routes' => 
     array (
@@ -300,6 +300,45 @@
     'mpesa' => 
     array (
       'getpayments_url' => 'http://41.215.126.10/api2/api/api/mpesa/getpayments',
+    ),
+    'images' => 
+    array (
+      'no_image_full' => 'images/no_image.jpg',
+      'no_image_thumb' => 'images/no_image.jpg',
+      'no_image_thumb_400' => 'images/no_image.jpg',
+    ),
+    'settings' => 
+    array (
+      'app_mode' => 'test',
+      'app_short_name' => 'snb',
+      'pendoadmin_app_name' => NULL,
+    ),
+    'pendoadmin_passport' => 
+    array (
+      'username' => NULL,
+      'password' => NULL,
+      'token_url' => 'http://41.215.126.10/public/api/login',
+    ),
+    'sms_types' => 
+    array (
+      'registration_sms' => '1',
+      'recommendation_sms' => '2',
+      'resent_registration_sms' => '3',
+      'forgot_password_sms' => '4',
+      'confirm_number_sms' => '5',
+      'company_sms' => '6',
+    ),
+    'status' => 
+    array (
+      'active' => '1',
+      'disabled' => '2',
+      'suspended' => '3',
+      'expired' => '4',
+      'pending' => '5',
+      'confirmed' => '6',
+      'cancelled' => '7',
+      'sent' => '8',
+      'inactive' => '99',
     ),
   ),
   'database' => 
@@ -812,16 +851,16 @@
   'mail' => 
   array (
     'driver' => 'smtp',
-    'host' => 'smtp.mailtrap.io',
-    'port' => '2525',
+    'host' => 'smtp.gmail.com',
+    'port' => '587',
     'from' => 
     array (
-      'address' => 'no-reply@mychama.co.ke',
+      'address' => 'no-reply@tercgpn.com',
       'name' => 'terc',
     ),
-    'encryption' => NULL,
-    'username' => '76bd066a77fa66',
-    'password' => '275d83c4560073',
+    'encryption' => 'tls',
+    'username' => 'tercgpn@gmail.com',
+    'password' => '123456terc',
     'sendmail' => '/usr/sbin/sendmail -bs',
     'markdown' => 
     array (

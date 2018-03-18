@@ -97,6 +97,7 @@
                 </ul>
             </li>
 
+            @if (Auth::user())
             <li class="dropdown auth-drp">
                 <a href="#" class="dropdown-toggle pr-0" data-toggle="dropdown">
                       <img src="{{ asset('admin/images/no_user.jpg') }}" 
@@ -160,6 +161,7 @@
                     </li>
                 </ul>
             </li>
+            @endif
 
         </ul>
     </div>

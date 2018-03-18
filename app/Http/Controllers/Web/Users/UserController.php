@@ -7,6 +7,7 @@ use App\Entities\Group;
 use App\Events\AccountAdded;
 use App\Http\Controllers\Controller;
 use App\Role;
+use App\Services\User\UserConfirm;
 use App\Services\User\UserIndex;
 use App\User;
 use Hash;
@@ -251,6 +252,24 @@ class UserController extends Controller
         $user->delete();
         
         return redirect('users.index');
+    }
+
+    //confirm user account
+    public function accountconfirm(Request $request, UserConfirm $userConfirm)
+    {
+
+        $this->validate(request(), [
+            'phone_country' => 'required_with:phone',
+            'phone' => 'required',
+            'confirm_code' => 'required',
+        ]);
+
+        //store data
+        $user = $userConfirm->accountconfirm($request->all());
+
+        Session::flash('success', 'User account confirmed successfully');
+        return redirect()->route('login');
+                                
     }
 
 

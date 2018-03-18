@@ -1,4 +1,4 @@
-@extends('layouts.authMaster')
+@extends('admin.layouts.authMaster')
 
 @section('title')
     Create Bulk Accounts

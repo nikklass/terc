@@ -1,4 +1,4 @@
-@extends('layouts.authMaster')
+@extends('admin.layouts.authMaster')
 
 @section('title')
     Register
@@ -17,7 +17,7 @@
 @endsection
 
 @section('css_header')
-  <link href="{{ asset('css/bootstrap-select.min.css') }}" rel="stylesheet" type="text/css">
+  <link href="{{ asset('admin/css/bootstrap-select.min.css') }}" rel="stylesheet" type="text/css">
 @endsection
 
 
@@ -49,44 +49,6 @@
                                   <form class="form-horizontal"  role="form" method="POST" action="{{ route('register.store') }}">
                                      
                                      {{ csrf_field() }}
-
-                                     <div  class="form-group{{ $errors->has('company_id') ? ' has-error' : '' }}">
-                                          
-                                        <label for="company_id" class="col-sm-3 control-label">
-                                           Sacco
-                                           <span class="text-danger"> *</span>
-                                        </label>
-                                        <div class="col-sm-9">
-                                          
-                                           <select class="selectpicker form-control" 
-                                              name="company_id" 
-                                              data-style="form-control btn-default btn-outline"
-                                              required>  
-
-                                              @foreach ($companies as $company)
-                                              <li class="mb-10">
-                                              <option value="{{ $company->id }}"
-
-                                        @if ($company->id == old('company_id', $company->id))
-                                            selected="selected"
-                                        @endif
-                                                  >{{ $company->name }}</option>
-                                              </li>
-                                              @endforeach
-                                              
-                                           </select>
-
-                                           @if ($errors->has('company_id'))
-                                                <span class="help-block">
-                                                    <strong>{{ $errors->first('company_id') }}</strong>
-                                                </span>
-                                           @endif
-                                        
-                                        </div>
-
-                                     </div>
-
-                                     <hr>
 
                                      <div  class="form-group{{ $errors->has('first_name') ? ' has-error' : '' }}">
                                         
@@ -126,12 +88,37 @@
                                                   class="form-control" 
                                                   id="last_name" 
                                                   name="last_name"
-                                                  value="{{ old('last_name') }}" required autofocus>
+                                                  value="{{ old('last_name') }}" required >
                                               <div class="input-group-addon"><i class="icon-user"></i></div>
                                            </div>
                                            @if ($errors->has('last_name'))
                                                 <span class="help-block">
                                                     <strong>{{ $errors->first('last_name') }}</strong>
+                                                </span>
+                                           @endif
+                                        </div>
+
+                                     </div>
+
+                                     <div  class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                                        
+                                        <label for="email" class="col-sm-3 control-label">
+                                           Email
+                                           <span class="text-danger"> *</span>
+                                        </label>
+                                        <div class="col-sm-9">
+                                           <div class="input-group">
+                                              <input 
+                                                  type="text" 
+                                                  class="form-control" 
+                                                  id="email" 
+                                                  name="email"
+                                                  value="{{ old('email') }}" required >
+                                              <div class="input-group-addon"><i class="icon-envelope-open"></i></div>
+                                           </div>
+                                           @if ($errors->has('email'))
+                                                <span class="help-block">
+                                                    <strong>{{ $errors->first('email') }}</strong>
                                                 </span>
                                            @endif
                                         </div>
@@ -146,7 +133,7 @@
                                         </label>
                                         <div class="col-sm-9">
                                            
-                                            <div class="col-sm-3" style="padding-left:0;">
+                                            <div class="col-sm-5" style="padding-left:0;">
                                           
                                                  <select class="selectpicker form-control" 
                                                     name="phone_country" 
@@ -155,12 +142,14 @@
 
                                                     @foreach ($countries as $country)
                                                     <li class="mb-10">
-                                                    <option value="{{ $country->sortname }}"
+                                                      <option value="{{ $country->sortname }}"
 
                                               @if ($country->sortname == old('phone_country', $country->sortname))
                                                   selected="selected"
                                               @endif
-                                                        >{{ $country->phonecode }}</option>
+                                                        >{{ $country->name }} 
+                                                        (+{{ $country->phonecode }})
+                                                      </option>
                                                     </li>
                                                     @endforeach
                                                     
@@ -168,7 +157,7 @@
                                               
                                             </div>
 
-                                            <div class="col-sm-9" style="padding-left:0;padding-right:0;">
+                                            <div class="col-sm-7" style="padding-left:0;padding-right:0;">
                                                 <input 
                                                     type="text" 
                                                     class="form-control digitsOnly" 
@@ -293,6 +282,8 @@
 
 
 @section('page_scripts')
-  <script src="{{ asset('js/bootstrap-select.min.js') }}"></script>
-  @include('layouts.partials.error_messages')
+
+  <script src="{{ asset('admin/js/bootstrap-select.min.js') }}"></script>
+  @include('admin.layouts.partials.error_messages')
+
 @endsection
