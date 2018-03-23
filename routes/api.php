@@ -108,20 +108,20 @@ $api->version('v1', function($api){
 
 
         $api->group(['middleware' => ['auth:api'], ], function ($api) {
-            
+
             //user
             $api->group(['prefix' => 'user'], function ($api) {
                 $api->get('/', 'Api\Users\ApiUsersController@loggeduser');
             });
 
             //Accounts
-            $api->group(['prefix' => 'accounts'], function ($api) {
-                $api->get('/', 'Api\Account\ApiAccountController@index');
-                $api->post('/', 'Api\Account\ApiAccountController@store');
-                $api->get('/{id}', 'Api\Account\ApiAccountController@show');
-                $api->put('/{id}', 'Api\Account\ApiAccountController@update');
-                $api->patch('/{id}', 'Api\Account\ApiAccountController@update');
-                $api->delete('/{id}', 'Api\Account\ApiAccountController@destroy');
+            $api->group(['prefix' => 'globalaltars'], function ($api) {
+                $api->get('/', 'Api\globalaltar\ApiGlobalAltarController@index');
+                $api->post('/', 'Api\globalaltar\ApiGlobalAltarController@store');
+                $api->get('/{id}', 'Api\globalaltar\ApiGlobalAltarController@show');
+                $api->put('/{id}', 'Api\globalaltar\ApiGlobalAltarController@update');
+                $api->patch('/{id}', 'Api\globalaltar\ApiGlobalAltarController@update');
+                $api->delete('/{id}', 'Api\globalaltar\ApiGlobalAltarController@destroy');
             });
 
             //Charges
@@ -164,7 +164,7 @@ $api->version('v1', function($api){
                 $api->delete('/{id}', 'Api\Account\ApiSavingsDepositAccountController@destroy');
             });
 
-            
+
 
             //products
             $api->group(['prefix' => 'products'], function ($api) {
@@ -177,7 +177,7 @@ $api->version('v1', function($api){
 
             //sms routes
             $api->group(['prefix' => 'sms'],function ($api) {
-                
+
                 $api->get('/getaccounts', 'Api\Sms\SmsAccountController@getBulkSmsAccounts');
                 $api->get('/getaccount', 'Api\Sms\SmsAccountController@getBulkSmsAccount');
                 $api->get('/getinbox', 'Api\Sms\SmsAccountController@smsInbox');
@@ -188,7 +188,7 @@ $api->version('v1', function($api){
 
             //mpesa routes
             $api->group(['prefix' => 'mpesa'],function ($api) {
-                
+
                 $api->get('/getpayments', 'Api\Mpesa\MpesaIncomingController@getPayments');
                 $api->post('/checkout', 'Api\Mpesa\MpesaOutgoingController@checkout');
 

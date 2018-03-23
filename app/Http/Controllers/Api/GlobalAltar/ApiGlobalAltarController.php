@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api\Product;
+namespace App\Http\Controllers\Api\GlobalAltar;
 
-use App\Entities\Company;
 use App\Entities\Group;
-use App\Entities\Product;
+use App\Entities\GlobalAltar;
 use App\Http\Controllers\BaseController;
-use App\Services\Product\ProductIndex;
-use App\Transformers\Product\ProductTransformer;
+use App\Services\GlobalAltar\GlobalAltarIndex;
+use App\Transformers\GlobalAltar\GlobalAltarTransformer;
 use App\User;
 use Carbon\Carbon;
 use Dingo\Api\Exception\StoreResourceFailedException;
@@ -16,57 +15,44 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Input;
 use Session;
 
-class ApiProductController extends BaseController
+class ApiGlobalAltarController extends BaseController
 {
-    
+
     /**
-     * @var product
+     * @var GlobalAltar
      */
     protected $model;
 
     /**
-     * ProductController constructor.
+     * GlobalAltarController constructor.
      *
-     * @param Product $model
+     * @param GlobalAltar $model
      */
-    public function __construct(Product $model)
+    public function __construct(GlobalAltar $model)
     {
         $this->model = $model;
-
     }
 
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request, ProductIndex $productIndex)
+    public function index(Request $request, GlobalAltarIndex $globalAltarIndex)
     {
 
-        /*start cache settings*/
-        $url = request()->url();
-        $params = request()->query();
-        $fullUrl = getFullCacheUrl($url, $params);
-        $minutes = getCacheDuration('low'); 
-        /*end cache settings*/
-
         //get the data
-        $data = $productIndex->getProducts($request);
+        $data = $globalAltarIndex->getGlobalAltars($request);
 
         //are we in report mode?
         if (!$request->report) {
 
-            $data = $this->response->paginator($data, new ProductTransformer());
+            $data = $this->response->paginator($data, new GlobalAltarTransformer());
 
         } else {
 
             $data = $data->get();
-            $data = $this->response->collection($data, new ProductTransformer());
+            $data = $this->response->collection($data, new GlobalAltarTransformer());
 
         }
-
-        //return api data
-        /*return Cache::remember($fullUrl, $minutes, function () use ($data) {
-            return $data;
-        });*/
 
         return $data;
 
@@ -81,7 +67,7 @@ class ApiProductController extends BaseController
     {
         $item = $this->model->findOrFail($id);
 
-        return $this->response->item($item, new ProductTransformer());
+        return $this->response->item($item, new GlobalAltarTransformer());
     }
 
 
@@ -134,7 +120,7 @@ class ApiProductController extends BaseController
         // update data fields
         $this->model->updatedata($id, $request->all());
 
-        return $this->response->item($item->fresh(), new ProductTransformer());
+        return $this->response->item($item->fresh(), new GlobalAltarTransformer());
 
     }
 
@@ -146,11 +132,11 @@ class ApiProductController extends BaseController
     */
     public function destroy(Request $request, $id)
     {
-        
+
         $user_id = auth()->user()->id;
 
         $item = $this->model->findOrFail($id);
-        
+
         if ($item) {
             //update deleted by field
             $item->update(['deleted_by' => $user_id]);
